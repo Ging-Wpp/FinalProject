@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
         final Button fobj = findViewById(R.id.fobj_btn);
         final Button fcolor = findViewById(R.id.fcolor_btn);
 
+        fobj.getBackground().setAlpha(150);
+        fcolor.getBackground().setAlpha(150);
+
         fobj.setOnClickListener(v -> {
             Intent intent1 = new Intent(MainActivity.this, FindObj.class);
             startActivity(intent1);
