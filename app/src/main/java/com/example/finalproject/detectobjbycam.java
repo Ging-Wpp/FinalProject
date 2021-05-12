@@ -238,6 +238,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             }
         });
 
+
+
 //        final Button copyText = (Button) findViewById(R.id.copy);
 //        TextView hexcode = (TextView)findViewById(R.id.hex);
 //        clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
@@ -253,6 +255,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 //            }
 //        });
 
+//        Mat colorLabel = mRgba.submat(20, 68, 20, 278);
+//        colorLabel.setTo(mBlobColorRgba);
 
         return false; // don't need subsequent touch events
     }
@@ -271,7 +275,7 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             for (int i=0; i<contours.size(); i++) {
 
 //                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
-                Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+                Mat colorLabel = mRgba.submat(20, 68, 20, 278);
                 colorLabel.setTo(mBlobColorRgba);
 //                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
 //                mSpectrum.copyTo(spectrumLabel);
