@@ -139,6 +139,9 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
         //For each contour found
         for (int i = 0; i < contours.size(); i++) {
 
+//            Imgproc.cvtColor(mRgba, mat1, Imgproc.COLOR_BGR2HSV);
+//            Core.inRange(mat1, scalarLow, scalarHigh, mat2);
+
 //            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
 //            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
 //            colorLabel.setTo(mBlobColorRgba);
@@ -159,9 +162,9 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
 
             // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
             //Imgproc.rectangle(inputFrame.rgba(), new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), (255, 0, 0, 255), 3);
-            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(255, 0, 0, 255));
+            Imgproc.rectangle(mat2, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(255, 0, 0, 255));
         }
-        return mRgba;
+        return mat2;
     }
 
 }

@@ -268,11 +268,11 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             //For each contour found
             for (int i=0; i<contours.size(); i++) {
 
-                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+//                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
                 Mat colorLabel = mRgba.submat(4, 68, 4, 68);
                 colorLabel.setTo(mBlobColorRgba);
-                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-                mSpectrum.copyTo(spectrumLabel);
+//                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//                mSpectrum.copyTo(spectrumLabel);
 
                 //Convert contours(i) from MatOfPoint to MatOfPoint2f
                 MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(i).toArray() );
