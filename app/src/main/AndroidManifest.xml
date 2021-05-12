@@ -24,7 +24,6 @@
 
         <activity android:name=".detectobjbycam"></activity>
         <activity android:name=".OKColor" />
-        <activity android:name=".SelectColor" />
         <activity android:name=".Fogallery" />
         <activity android:name=".Focamera" />
         <activity android:name=".Fcgallery" />

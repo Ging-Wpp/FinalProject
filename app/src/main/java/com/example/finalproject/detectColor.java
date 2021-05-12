@@ -208,8 +208,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 
         String hex = String.format("#%02x%02x%02x", (int)mBlobColorRgba.val[0], (int)mBlobColorRgba.val[1], (int)mBlobColorRgba.val[2]);
 //        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
-//
-
 
         rgb.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2]);
         HexCode.setText("Hex Code: " + hex.toUpperCase());
@@ -226,14 +224,12 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                 String copy = txtcopy.substring(10);
                 clipData = ClipData.newPlainText("text",copy);
                 clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(getApplicationContext(),"Data Copied to Clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(detectColor.this,FindColorFromCamera.class);
 //                intent.putExtra("text", copy);
 //                startActivity(intent);
             }
         });
-
-
 
         return false; // don't need subsequent touch events
     }

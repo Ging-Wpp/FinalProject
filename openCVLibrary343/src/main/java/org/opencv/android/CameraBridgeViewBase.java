@@ -426,8 +426,6 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
                 mScale2=1.3f;
             }
 
-            //this code will scale canvas to fit your phone
-
             if (canvas != null) {
                 canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
                 if (BuildConfig.DEBUG)

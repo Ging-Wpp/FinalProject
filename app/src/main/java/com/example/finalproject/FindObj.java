@@ -29,15 +29,6 @@ public class FindObj extends AppCompatActivity {
         final Button storage = (Button)findViewById(R.id.fcolor_btn);
         final Button camera = (Button)findViewById(R.id.fobj_btn);
 
-        final Button fcolor = (Button)findViewById(R.id.find_btn);
-
-        fcolor.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent1 = new Intent(FindObj.this, SelectColor.class);
-                startActivity(intent1);
-            }
-        });
-
 //        camera.setOnClickListener(v -> {
 //            Intent intent1 = new Intent(FindObj.this, FindColorFromCamera.class);
 //            startActivity(intent1);

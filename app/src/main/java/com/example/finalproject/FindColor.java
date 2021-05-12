@@ -41,10 +41,10 @@ public class FindColor extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(FindColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(intent, 0);
-                    }
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    if (intent.resolveActivity(getPackageManager()) != null) {
+//                        startActivityForResult(intent, 0);
+//                    }
                 }
                 Intent intent1 = new Intent(FindColor.this, detectColor.class);
                 startActivity(intent1);
@@ -97,7 +97,7 @@ public class FindColor extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
         if (requestCode == 0 && resultCode == FindColor.RESULT_OK) {
             try {
-                Intent intent = new Intent(FindColor.this,Fccamera.class);
+                Intent intent = new Intent(FindColor.this,detectColor.class);
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 intent.putExtra("data", photo);
                 startActivity(intent);

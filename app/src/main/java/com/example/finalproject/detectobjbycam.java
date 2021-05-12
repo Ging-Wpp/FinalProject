@@ -30,6 +30,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -103,6 +104,7 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         mOpenCvCameraView = findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+//        mOpenCvCameraView.setCameraDisplayOrientation(this);
 
         mOpenCvCameraView.setDrawingCacheEnabled(true);
         mOpenCvCameraView.buildDrawingCache(true);
@@ -230,9 +232,9 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
                 clipData = ClipData.newPlainText("text",copy);
                 clipboardManager.setPrimaryClip(clipData);
                 Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(detectobjbycam.this,FindColorFromCamera.class);
-                intent.putExtra("text", copy);
-                startActivity(intent);
+//                Intent intent = new Intent(detectobjbycam.this,FindColorFromCamera.class);
+//                intent.putExtra("text", copy);
+//                startActivity(intent);
             }
         });
 
@@ -302,4 +304,30 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 
         return new Scalar(pointMatRgba.get(0, 0));
     }
+
+    public static void setCameraDisplayOrientation(Activity activity,
+                                                   int cameraId, android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
+    }
+
 }

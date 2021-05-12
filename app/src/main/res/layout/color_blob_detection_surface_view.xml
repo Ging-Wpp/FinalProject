@@ -26,9 +26,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <org.opencv.android.JavaCameraView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="80dp"
             android:id="@+id/color_blob_detection_activity_surface_view" />
 
 
@@ -38,9 +40,9 @@
             android:layout_width="500dp"
             android:layout_height="80dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="560dp"
+            android:layout_marginTop="580dp"
             android:text=""
-            android:textColor="#000"
+            android:textColor="#ffffff"
             android:textSize="18sp" />
 
         <TextView
@@ -50,7 +52,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="600dp"
             android:text=""
-            android:textColor="#000"
+            android:textColor="#ffffff"
             android:textSize="18sp" />
 
         <TextView
@@ -58,9 +60,9 @@
             android:layout_width="500dp"
             android:layout_height="80dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="640dp"
+            android:layout_marginTop="620dp"
             android:text="Name: "
-            android:textColor="#000"
+            android:textColor="#ffffff"
             android:textSize="18sp" />
 
         <Button
