@@ -408,6 +408,26 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 
         if (bmpValid && mCacheBitmap != null) {
             Canvas canvas = getHolder().lockCanvas();
+
+            // rotate canvas by 90 degree
+            // for portrait mode
+            // now you hava to scale frame according to your phone
+            float mScale1=0;
+            float mScale2=0;
+            if(canvas.getHeight()>canvas.getWidth()){
+                canvas.rotate(90f,canvas.getWidth()/2,canvas.getHeight()/2);
+                // for my Phone my scale values are
+                mScale1=1.8f;
+                mScale2=1.5f;
+
+            }
+            else{
+                mScale1=1.4f;
+                mScale2=1.3f;
+            }
+
+            //this code will scale canvas to fit your phone
+
             if (canvas != null) {
                 canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
                 if (BuildConfig.DEBUG)
