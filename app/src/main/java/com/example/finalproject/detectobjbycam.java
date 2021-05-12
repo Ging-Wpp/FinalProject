@@ -113,6 +113,19 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         HexCode = findViewById(R.id.hex);
         Name = findViewById(R.id.name);
 
+        final Button camera = findViewById(R.id.button3);
+        final Button gallery = findViewById(R.id.button4);
+
+        camera.setOnClickListener(v -> {
+            Intent intent1 = new Intent(detectobjbycam.this, detectobjbycam.class);
+            startActivity(intent1);
+        });
+
+        gallery.setOnClickListener(v -> {
+            Intent intent2 = new Intent(detectobjbycam.this, FindColor.class);
+            startActivity(intent2);
+        });
+
 //        mResultTv = findViewById(R.id.resultTv);
     }
 
