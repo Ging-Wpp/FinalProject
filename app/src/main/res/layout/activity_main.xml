@@ -1,0 +1,52 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context="com.example.colorblindassistance.MainActivity" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal">
+
+            <Button
+                android:id="@+id/fobj_btn"
+                android:layout_width="215dp"
+                android:layout_height="81dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/top2"
+                android:background="@drawable/btn"
+                android:padding="18dp"
+                android:text="@string/fobj"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal">
+
+            <Button
+                android:id="@+id/fcolor_btn"
+                android:layout_width="215dp"
+                android:layout_height="81dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/top4"
+                android:background="@drawable/btn"
+                android:padding="14dp"
+                android:text="@string/fcolor"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

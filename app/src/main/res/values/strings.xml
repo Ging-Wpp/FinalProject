@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ColorBlindAssistance</string>
+    <string name="color">เลือกสี</string>
+    <string name="camera">กล้องถ่ายภาพ</string>
+    <string name="gallery">แกลลอรี่</string>
+    <string name="fobj">ค้นหาวัตถุ</string>
+    <string name="fcolor">ค้นหาสี</string>
+    <string name="again_btn">ย้อนกลับ</string>
+    <string name="forward_btn">หน้าหลัก</string>
+    <string name="button">Button</string>
+    <string name="copy">คัดลอก</string>
+    <string name="again">ถ่ายใหม่</string>
+    <string name="home2">หน้าหลัก</string>
+</resources>
