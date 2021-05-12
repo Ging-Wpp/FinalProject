@@ -12,9 +12,14 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class FindColorFromCamera extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -22,12 +27,17 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
     private static final String TAG = "FindColorFromCamera";
 
     JavaCameraView javaCameraView;
-    Mat mat1, mat2;
+    Mat mat1, mat2, mRgba;
 
     private Scalar mBlobColorRgba;
 
     Scalar scalarLow, scalarHigh;
     Scalar redLow, redHigh, greenLow, greenHigh, blackLow, blackHigh;
+
+    private Scalar CONTOUR_COLOR;
+    private Mat mSpectrum;
+
+    private ColorBlobDetector mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +78,8 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
         //set sentity r= low+15, high+15
         //detect green color in hsv
 
-        scalarLow = new Scalar(10,100,20);
-        scalarHigh = new Scalar(20,255,200);
+        scalarLow = new Scalar(45,100,100);
+        scalarHigh = new Scalar(75,255,255);
 
         blackLow = new Scalar(0,0,0);
         blackHigh = new Scalar(180,150,50);
@@ -103,6 +113,10 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
     public void onCameraViewStarted(int width, int height) {
         mat1 = new Mat(width, height, CvType.CV_8UC3);
         mat2 = new Mat(width, height, CvType.CV_8UC3);
+        mRgba = new Mat(height, width, CvType.CV_8UC3);
+        CONTOUR_COLOR = new Scalar(255, 0, 0, 255);
+        mDetector = new ColorBlobDetector();
+        mSpectrum = new Mat();
     }
 
     @Override
@@ -112,8 +126,42 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        Imgproc.cvtColor(inputFrame.rgba(), mat1, Imgproc.COLOR_BGR2HSV);
+
+        mRgba = inputFrame.rgba();
+        mDetector.process(inputFrame.rgba());
+
+        MatOfPoint2f approxCurve = new MatOfPoint2f();
+        List<MatOfPoint> contours = mDetector.getContours();
+
+        Imgproc.cvtColor(mRgba, mat1, Imgproc.COLOR_BGR2HSV);
         Core.inRange(mat1, scalarLow, scalarHigh, mat2);
-        return mat2;
+
+        //For each contour found
+        for (int i = 0; i < contours.size(); i++) {
+
+//            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//            colorLabel.setTo(mBlobColorRgba);
+//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//            mSpectrum.copyTo(spectrumLabel);
+
+            //Convert contours(i) from MatOfPoint to MatOfPoint2f
+            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+            //Processing on mMOP2f1 which is in type MatOfPoint2f
+            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+
+            //Convert back to MatOfPoint
+            MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+
+            // Get bounding rect of contour
+            Rect rect = Imgproc.boundingRect(points);
+
+            // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
+            //Imgproc.rectangle(inputFrame.rgba(), new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), (255, 0, 0, 255), 3);
+            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(255, 0, 0, 255));
+        }
+        return mRgba;
     }
+
 }

@@ -10,6 +10,8 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -61,6 +63,7 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
     private ClipboardManager clipboardManager;
 
     private CameraBridgeViewBase mOpenCvCameraView;
+
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -257,15 +260,36 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 
         if (mIsColorSelected) { //if selected new color then re process again
             mDetector.process(mRgba);
+
             List<MatOfPoint> contours = mDetector.getContours();
             Log.e(TAG, "Contours count: " + contours.size());
-            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
 
-            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-            colorLabel.setTo(mBlobColorRgba);
+            MatOfPoint2f approxCurve = new MatOfPoint2f();
+            //For each contour found
+            for (int i=0; i<contours.size(); i++) {
 
-            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-            mSpectrum.copyTo(spectrumLabel);
+                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+                Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+                colorLabel.setTo(mBlobColorRgba);
+                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+                mSpectrum.copyTo(spectrumLabel);
+
+                //Convert contours(i) from MatOfPoint to MatOfPoint2f
+                MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(i).toArray() );
+                //Processing on mMOP2f1 which is in type MatOfPoint2f
+                double approxDistance = Imgproc.arcLength(contour2f, true)*0.02;
+                Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+
+                //Convert back to MatOfPoint
+                MatOfPoint points = new MatOfPoint( approxCurve.toArray() );
+
+                // Get bounding rect of contour
+                Rect rect = Imgproc.boundingRect(points);
+
+                // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
+//                Core.rectangle(contoursFrame, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), (255, 0, 0, 255), 3);
+                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(0, 255, 0));
+            }
         }
         return mRgba;
     }

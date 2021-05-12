@@ -10,7 +10,6 @@
         android:smallScreens="true" />
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -22,6 +21,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
+
         <activity android:name=".detectobjbycam"></activity>
         <activity android:name=".OKColor" />
         <activity android:name=".SelectColor" />

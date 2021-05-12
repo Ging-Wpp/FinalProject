@@ -264,4 +264,5 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 
         return new Scalar(pointMatRgba.get(0, 0));
     }
+
 }
