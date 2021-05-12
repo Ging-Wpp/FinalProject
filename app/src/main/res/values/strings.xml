@@ -6,4 +6,8 @@
     <string name="fcolor">Find Color</string>
     <string name="button">Button</string>
     <string name="copy">Copy</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">Start</string>
 </resources>
