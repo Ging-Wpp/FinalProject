@@ -8,7 +8,6 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
-
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -22,7 +21,6 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fpage"></activity>
         <activity android:name=".detectobjbycam" />
         <activity android:name=".OKColor" />
         <activity android:name=".Fogallery" />
@@ -33,7 +31,8 @@
         <activity android:name=".FindObj" />
         <activity android:name=".FindColorFromCamera" />
         <activity android:name=".detectColor" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SliderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
