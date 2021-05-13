@@ -17,14 +17,17 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -38,6 +41,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class detectColor extends AppCompatActivity implements OnTouchListener, CvCameraViewListener2 {
     private static final String TAG = "detectColor";
@@ -61,6 +66,9 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
     private ClipboardManager clipboardManager;
 
     private CameraBridgeViewBase mOpenCvCameraView;
+
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int STORAGE_PERMISSION_CODE = 200;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -108,8 +116,87 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         HexCode = findViewById(R.id.hex);
         Name = findViewById(R.id.name);
 
+        final Button camera = findViewById(R.id.camera);
+        final Button gallery = findViewById(R.id.gallery);
+
+        camera.setOnClickListener(v -> {
+            Intent intent1 = new Intent(detectColor.this, detectColor.class);
+            startActivity(intent1);
+        });
+
+//        gallery.setOnClickListener(v -> {
+//            Intent intent2 = new Intent(detectobjbycam.this, Fogallery.class);
+//            startActivity(intent2);
+//        });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
+                }
+                else {
+                    Toast.makeText(detectColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+                    }
+                }
+            }
+        });
+
 //        mResultTv = findViewById(R.id.resultTv);
+    }//end oncreate
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(detectColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(detectColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(detectColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(detectColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 0 && resultCode == FindObj.RESULT_OK) {
+            try {
+                Intent intent = new Intent(detectColor.this,detectColor.class);
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                intent.putExtra("data", photo);
+                startActivity(intent);
+//                Intent intent1 = new Intent(FindObj.this, detectColor.class);
+//                startActivity(intent1);
+            } catch (Exception e) {
+                Log.e("Log", "Error from Camera Activity");
+            }
+        }
+
+        if (requestCode == 1 && resultCode == FindObj.RESULT_OK && data!=null) {
+            try {
+                Uri uri = data.getData();
+                Intent intent = new Intent(detectColor.this,Fcgallery.class);
+                intent.putExtra("imageUri", uri.toString());
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e("Log", "Error from Gallery Activity");
+            }
+        }
+    }//end onActivityResult
 
     @Override
     public void onPause() {
@@ -232,7 +319,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         });
 
         return false; // don't need subsequent touch events
-    }
+    }//end ontouch
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
         mRgba = inputFrame.rgba();

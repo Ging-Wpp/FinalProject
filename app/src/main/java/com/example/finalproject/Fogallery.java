@@ -1,63 +1,196 @@
 package com.example.finalproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+
 public class Fogallery extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 200;
+
+    ImageView ImageView;
+    TextView ResultTv;
+    TextView HexName;
+    TextView Name;
+    View ColorView;
+    Bitmap bitmap;
+    private ClipData clipData;
+    private ClipboardManager clipboardManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fogallery);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.getLayoutParams().height = 800;
-        imageView.getLayoutParams().width = 600;
-        Bundle extras = getIntent().getExtras();
-        Uri myUri = Uri.parse(extras.getString("imageUri"));
-        imageView.setImageURI(myUri);
+        ImageView = (ImageView) findViewById(R.id.imageView);
+        ResultTv = findViewById(R.id.resultTv);
+        ColorView = findViewById(R.id.colorView);
+        HexName = findViewById(R.id.hex);
+        Name = findViewById(R.id.name);
 
-        final Button gallery = (Button)findViewById(R.id.again_btn);
+        ImageView.setDrawingCacheEnabled(true);
+        ImageView.buildDrawingCache(true);
 
-        gallery.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(Fogallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(Fogallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
-                }
-                else {
-                    Toast.makeText(Fogallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+        ImageView.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE ){
+                bitmap = ImageView.getDrawingCache();
+
+                int pixel = bitmap.getPixel((int)event.getX(), (int)event.getY());
+
+                //getting RGB values
+                int r = Color.red(pixel);
+                int g = Color.green(pixel);
+                int b = Color.blue(pixel);
+
+                //getting HEX values
+                ArrayList<String> hexArr = new ArrayList<>();
+                String hex = Integer.toHexString(pixel);
+                String hex2 = "#" + hex.substring(2);
+                hexArr.add(hex2);
+
+                //set RGB, HEX values to textView
+                String[] colorNames = getResources().getStringArray(R.array.colorNames);
+                String[] colorCodes = getResources().getStringArray(R.array.codecolors);
+                ResultTv.setText(String.format("RGB: %d, %d, %d", r, g, b));
+                HexName.setText("\nHEX: " + hex2.toUpperCase());
+
+//                    StringBuffer sb = new StringBuffer();
+//                    for(int i = 0; i < colorCodes.length; i++) {
+//                        sb.append(colorCodes[i]);
+//                    }
+//                    String str = sb.toString();
+//
+//                    ArrayList<String> list = new ArrayList<>(Arrays.asList(str.split("#")));
+
+//                    ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
+
+
+
+                for (String s : colorCodes)
+                {
+//                        ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
+                    for(int i=0;i<colorCodes.length;i++) {
+                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
+                            ResultTv.setText("RGB: " + r + ", " + g + ", " + b);
+                            HexName.setText("\nHEX: " + hex2);
+                            Name.setText("\nColor name: " + colorNames[i]);
+                        }else{
+                            i++;
+                        }
+                        i++;
                     }
                 }
+
+//                    for(int i=0;i<colorCodes.length;i++) {
+//                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
+//                            mResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2 +
+//                                    "\ncolor name: " + colorNames[i]);
+//                        }
+//                        i++;
+//                    }
+
+                //set background of view according to the picked color
+                ColorView.setBackgroundColor(Color.rgb(r,g,b));
+
             }
+            return true;
         });
 
-        final Button ok = (Button)findViewById(R.id.forward_btn);
-        ok.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent1 = new Intent(Fogallery.this, MainActivity.class);
-                startActivity(intent1);
-            }
+//        ImageView.getLayoutParams().height = 800;
+//        ImageView.getLayoutParams().width = 600;
+        Bundle extras = getIntent().getExtras();
+        Uri myUri = Uri.parse(extras.getString("imageUri"));
+        ImageView.setImageURI(myUri);
+
+//        final Button gallery = (Button)findViewById(R.id.again_btn);
+//
+//        gallery.setOnClickListener(v -> {
+//            if (ContextCompat.checkSelfPermission(Fcgallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//                ActivityCompat.requestPermissions(Fcgallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
+//            }
+//            else {
+//                Toast.makeText(Fcgallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+//                }
+//            }
+//        });
+
+//        final Button ok = (Button)findViewById(R.id.forward_btn);
+//        ok.setOnClickListener(v -> {
+//            Intent intent1 = new Intent(Fcgallery.this, MainActivity.class);
+//            startActivity(intent1);
+//        });
+
+        final Button copyText = (Button) findViewById(R.id.copy);
+        @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
+        clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        copyText.setOnClickListener(v -> {
+            String txtcopy = hexcode.getText().toString();
+            String copy = txtcopy.substring(6);
+            clipData = ClipData.newPlainText("text",copy);
+            clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
         });
     }
+
+//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+////        imageView.getLayoutParams().height = 800;
+////        imageView.getLayoutParams().width = 600;
+//        Bundle extras = getIntent().getExtras();
+//        Uri myUri = Uri.parse(extras.getString("imageUri"));
+//        imageView.setImageURI(myUri);
+
+//        final Button gallery = (Button)findViewById(R.id.again_btn);
+//
+//        gallery.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                if (ContextCompat.checkSelfPermission(Fogallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//                    ActivityCompat.requestPermissions(Fogallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
+//                }
+//                else {
+//                    Toast.makeText(Fogallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("image/*");
+//                    if (intent.resolveActivity(getPackageManager()) != null) {
+//                        startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+//                    }
+//                }
+//            }
+//        });
+
+//        final Button ok = (Button)findViewById(R.id.forward_btn);
+//        ok.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent1 = new Intent(Fogallery.this, MainActivity.class);
+//                startActivity(intent1);
+//            }
+//        });
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)

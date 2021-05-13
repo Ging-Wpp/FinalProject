@@ -76,7 +76,7 @@ public class Fcgallery extends AppCompatActivity {
                 String[] colorNames = getResources().getStringArray(R.array.colorNames);
                 String[] colorCodes = getResources().getStringArray(R.array.codecolors);
                 ResultTv.setText(String.format("RGB: %d, %d, %d", r, g, b));
-                HexName.setText("\nHEX: " + hex2);
+                HexName.setText("\nHEX: " + hex2.toUpperCase());
 
 //                    StringBuffer sb = new StringBuffer();
 //                    for(int i = 0; i < colorCodes.length; i++) {
@@ -126,27 +126,27 @@ public class Fcgallery extends AppCompatActivity {
         Uri myUri = Uri.parse(extras.getString("imageUri"));
         ImageView.setImageURI(myUri);
 
-        final Button gallery = (Button)findViewById(R.id.again_btn);
+//        final Button gallery = (Button)findViewById(R.id.again_btn);
+//
+//        gallery.setOnClickListener(v -> {
+//            if (ContextCompat.checkSelfPermission(Fcgallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//                ActivityCompat.requestPermissions(Fcgallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
+//            }
+//            else {
+//                Toast.makeText(Fcgallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+//                }
+//            }
+//        });
 
-        gallery.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(Fcgallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(Fcgallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
-            }
-            else {
-                Toast.makeText(Fcgallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
-                }
-            }
-        });
-
-        final Button ok = (Button)findViewById(R.id.forward_btn);
-        ok.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Fcgallery.this, MainActivity.class);
-            startActivity(intent1);
-        });
+//        final Button ok = (Button)findViewById(R.id.forward_btn);
+//        ok.setOnClickListener(v -> {
+//            Intent intent1 = new Intent(Fcgallery.this, MainActivity.class);
+//            startActivity(intent1);
+//        });
 
         final Button copyText = (Button) findViewById(R.id.copy);
         @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
@@ -156,7 +156,7 @@ public class Fcgallery extends AppCompatActivity {
             String copy = txtcopy.substring(6);
             clipData = ClipData.newPlainText("text",copy);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getApplicationContext(),"Data Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
         });
     }
 

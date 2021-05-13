@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<FrameLayout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent" >-->
 
-<!--    <org.opencv.android.JavaCameraView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:id="@+id/color_blob_detection_activity_surface_view" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/colorBtn"-->
-<!--        android:layout_width="130dp"-->
-<!--        android:layout_height="81dp"-->
-<!--        android:layout_marginStart="250dp"-->
-<!--        android:layout_marginTop="600dp"-->
-<!--        android:background="@drawable/btn"-->
-<!--        android:padding="18dp"-->
-<!--        android:text="@string/copy"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="20sp" />-->
-
-    <RelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/camera"
+        android:layout_width="105dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/ripple_effect_raised"
+        android:textColor="#FFFFFF"
+        android:text="@string/camera" />
+
+    <Button
+        android:id="@+id/gallery"
+        android:layout_width="105dp"
+        android:layout_height="65dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ripple_effect_raised"
+        android:textColor="#FFFFFF"
+        android:text="@string/gallery" />
+
+
+    <org.opencv.android.JavaCameraView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/color_blob_detection_activity_surface_view" />
 
+    <TextView
+        android:id="@+id/resultTv"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="580dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
-        <org.opencv.android.JavaCameraView
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginTop="80dp"
-            android:id="@+id/color_blob_detection_activity_surface_view" />
+    <TextView
+        android:id="@+id/hex"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="620dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="660dp"
+        android:text="Name: "
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
-
-        <TextView
-            android:id="@+id/resultTv"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="580dp"
-            android:text=""
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/hex"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="600dp"
-            android:text=""
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="500dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="620dp"
-            android:text="Name: "
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/copy"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="600dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/copy" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/copy"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="600dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ripple_effect_raised"
+        android:textColor="#FFFFFF"
+        android:text="@string/copy" />
+</RelativeLayout>
 
 
 
-<!--</FrameLayout>-->
+    <!--</FrameLayout>-->

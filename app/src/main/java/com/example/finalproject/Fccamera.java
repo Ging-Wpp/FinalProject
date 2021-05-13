@@ -152,13 +152,13 @@ public class Fccamera extends AppCompatActivity {
             }
         });
 
-        final Button ok = (Button)findViewById(R.id.forward_btn);
-        ok.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent1 = new Intent(Fccamera.this, MainActivity.class);
-                startActivity(intent1);
-            }
-        });
+//        final Button ok = (Button)findViewById(R.id.forward_btn);
+//        ok.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent1 = new Intent(Fccamera.this, MainActivity.class);
+//                startActivity(intent1);
+//            }
+//        });
 
         final Button copyText = (Button) findViewById(R.id.copy);
         TextView hexcode = (TextView)findViewById(R.id.hex);

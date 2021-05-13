@@ -3,61 +3,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:orientation="vertical"
         tools:context=".Fcgallery">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/camera"
+                android:layout_width="105dp"
+                android:layout_height="65dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="70dp"
+                android:background="@drawable/ripple_effect_raised"
+                android:textColor="#FFFFFF"
+                android:text="@string/camera"/>
+
+            <Button
+                android:id="@+id/gallery"
+                android:layout_width="105dp"
+                android:layout_height="65dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ripple_effect_raised"
+                android:text="@string/gallery"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_gravity="center"
+            android:layout_marginTop="60dp"
             android:contentDescription="@string/app_name" />
-
-        <View
-            android:id="@+id/colorView"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp">
+
+            <View
+                android:id="@+id/colorView"
+                android:layout_width="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="70dp" />
 
             <TextView
                 android:id="@+id/resultTv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="10dp"
                 android:text=""
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/hex"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="20dp"
                 android:text=""
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="70dp"
                 android:text=""
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <Button
@@ -67,35 +96,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/ripple_effect_raised"
                 android:text="@string/copy" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/again_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="60sp"
-                android:layout_columnWeight="1"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                />
-
-            <Button
-                android:id="@+id/forward_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="60sp"
-                android:layout_columnWeight="1"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
