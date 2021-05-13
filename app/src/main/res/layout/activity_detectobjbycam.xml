@@ -73,8 +73,8 @@
             android:layout_width="500dp"
             android:layout_height="50dp"
             android:layout_marginLeft="70dp"
-            android:layout_marginTop="660dp"
-            android:text="Name: "
+            android:layout_marginTop="640dp"
+            android:text=""
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 

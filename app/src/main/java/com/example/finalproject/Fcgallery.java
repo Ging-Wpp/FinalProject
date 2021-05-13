@@ -73,8 +73,11 @@ public class Fcgallery extends AppCompatActivity {
 
         final Button gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Fcgallery.this, Fcgallery.class);
-            startActivity(intent1);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+            }
         });
 
         ImageView.setOnTouchListener(imgSourceOnTouchListener);
@@ -1862,7 +1865,7 @@ public class Fcgallery extends AppCompatActivity {
 //            }
 //        }
 
-        if (requestCode == 1 && resultCode == FindColor.RESULT_OK && data!=null) {
+        if (requestCode == 1 && resultCode == Fcgallery.RESULT_OK && data!=null) {
             try {
                 Uri uri = data.getData();
                 Intent intent = new Intent(Fcgallery.this,Fcgallery.class);

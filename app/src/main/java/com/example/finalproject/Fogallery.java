@@ -64,14 +64,17 @@ public class Fogallery extends AppCompatActivity {
 
         final Button camera = findViewById(R.id.camera);
         camera.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Fogallery.this, detectColor.class);
+            Intent intent1 = new Intent(Fogallery.this, detectobjbycam.class);
             startActivity(intent1);
         });
 
         final Button gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Fogallery.this, Fogallery.class);
-            startActivity(intent1);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+            }
         });
 
         ImageView.setOnTouchListener(imgSourceOnTouchListener);
@@ -259,7 +262,7 @@ public class Fogallery extends AppCompatActivity {
 //            }
 //        }
 
-        if (requestCode == 1 && resultCode == FindObj.RESULT_OK && data!=null) {
+        if (requestCode == 1 && resultCode == Fogallery.RESULT_OK && data!=null) {
             try {
                 Uri uri = data.getData();
                 Intent intent = new Intent(Fogallery.this,Fogallery.class);
