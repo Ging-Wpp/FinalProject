@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:layout_gravity="center">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/camera"
+            android:layout_width="105dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="60dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ripple_effect_raised"
+            android:textColor="#FFFFFF"
+            android:text="@string/camera" />
+
+        <Button
+            android:id="@+id/gallery"
+            android:layout_width="105dp"
+            android:layout_height="65dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="60dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ripple_effect_raised"
+            android:textColor="#FFFFFF"
+            android:text="@string/gallery" />
+
+
+        <org.opencv.android.JavaCameraView
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:layout_marginTop="150dp"
+            android:id="@+id/color_blob_detection_activity_surface_view" />
+
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="600dp"
+            android:layout_height="90dp" />
+
+        <TextView
+            android:id="@+id/resultTv"
+            android:layout_width="500dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="600dp"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/hex"
+            android:layout_width="500dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="630dp"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="500dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="640dp"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/copy"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="600dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ripple_effect_raised"
+            android:textColor="#FFFFFF"
+            android:text="@string/copy" />
+
+    </RelativeLayout>
+
+</ScrollView>
+    <!--</FrameLayout>-->

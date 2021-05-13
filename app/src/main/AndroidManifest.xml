@@ -22,7 +22,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Color"></activity>
+        <activity android:name=".detectObjFromGall"></activity>
+        <activity android:name=".Color" />
         <activity android:name=".detectobjbycam" />
         <activity android:name=".OKColor" />
         <activity android:name=".Fogallery" />
@@ -34,7 +35,7 @@
         <activity android:name=".FindColorFromCamera" />
         <activity android:name=".detectColor" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SliderActivity"/>
+        <activity android:name=".SliderActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

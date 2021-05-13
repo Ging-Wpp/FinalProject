@@ -136,7 +136,7 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
         MatOfPoint2f approxCurve = new MatOfPoint2f();
         List<MatOfPoint> contours = mDetector.getContours();
 
-        Imgproc.cvtColor(mRgba, mat1, Imgproc.COLOR_BGR2HSV);
+        Imgproc.cvtColor(mRgba, mat1, Imgproc.COLOR_RGB2HSV);
         Core.inRange(mat1, scalarLow, scalarHigh, mat2);
 
         //For each contour found
@@ -168,31 +168,6 @@ public class FindColorFromCamera extends AppCompatActivity implements CameraBrid
             Imgproc.rectangle(mat2, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(255, 0, 0, 255));
         }
         return mat2;
-    }
-
-    public static void setCameraDisplayOrientation(Activity activity,
-                                                   int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info =
-                new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay()
-                .getRotation();
-        int degrees = 0;
-        switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
-        }
-
-        int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
-            result = (info.orientation - degrees + 360) % 360;
-        }
-        camera.setDisplayOrientation(result);
     }
 
 }

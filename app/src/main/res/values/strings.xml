@@ -10,6 +10,6 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="start">Start</string>
-<!--    <string name="pick_color_from_cameara">Pick color from cameara</string>-->
-<!--    <string name="cameraDesc">CAMERA</string>-->
+    <!--    <string name="pick_color_from_cameara">Pick color from cameara</string>-->
+    <!--    <string name="cameraDesc">CAMERA</string>-->
 </resources>
