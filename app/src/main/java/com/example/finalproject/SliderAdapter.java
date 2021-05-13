@@ -26,23 +26,23 @@ public class SliderAdapter extends PagerAdapter {
 
     // img Array
     public int[] image_slide ={
-            R.drawable.img1,
-            R.drawable.img2,
-            R.drawable.img3
+            R.drawable.ic_baseline_camera_24,
+            R.drawable.ic_baseline_photo_24,
+            R.drawable.ic_baseline_find_in_page_24
     };
 
     // heading Array
     public String[] heading_slide ={
-            "EAT",
-            "SLEEP",
-            "CODE"
+            "CAMERA",
+            "PHOTO",
+            "Find Object"
     };
 
     // description Array
     public String[] description_slide ={
-            "Splash Screen like professional with Animation in Android Studio",
-            "Splash Screen with Transition Animation",
-            " simple way to create Splash Scree"
+            "Pick color from camera and Realtime find object",
+            "Pick color from photo",
+            "Detect realtime color and find it"
     };
 
 

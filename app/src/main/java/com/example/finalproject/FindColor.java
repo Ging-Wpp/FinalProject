@@ -63,6 +63,8 @@ public class FindColor extends AppCompatActivity {
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
                     }
+                    Intent intent1 = new Intent(FindColor.this, Fcgallery.class);
+                    startActivity(intent1);
                 }
             }
         });

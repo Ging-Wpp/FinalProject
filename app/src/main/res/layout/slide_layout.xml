@@ -8,14 +8,6 @@
 
     >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        app:srcCompat="@drawable/img1" />
-
     <TextView
         android:id="@+id/tvHeading"
         android:layout_width="wrap_content"
@@ -27,10 +19,17 @@
         android:textSize="20sp"
         android:textAllCaps="true"
         android:textStyle="bold"
-        android:text="TextView"
+        android:text="text"
         android:textColor="@android:color/white"
         />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/ic_baseline_camera_24" />
 
 
     <TextView
@@ -39,15 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHeading"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:textSize="15sp"
+        android:text="Text"
         android:textAllCaps="true"
-        android:textStyle="normal"
-        android:text="TextView"
         android:textColor="@android:color/white"
-        >
-    </TextView>
+        android:textSize="15sp"
+        android:textStyle="normal" />
     <View style="@style/Divider"/>
 
 
