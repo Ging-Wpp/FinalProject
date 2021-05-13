@@ -113,8 +113,8 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
-        mOpenCvCameraView.setDrawingCacheEnabled(true);
-        mOpenCvCameraView.buildDrawingCache(true);
+//        mOpenCvCameraView.setDrawingCacheEnabled(true);
+//        mOpenCvCameraView.buildDrawingCache(true);
 
         rgb = findViewById(R.id.resultTv);
         HexCode = findViewById(R.id.hex);
