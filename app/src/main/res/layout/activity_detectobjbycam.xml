@@ -33,12 +33,20 @@
         android:layout_height="match_parent"
         android:id="@+id/color_blob_detection_activity_surface_view" />
 
+    <View
+        android:id="@+id/colorView"
+        android:layout_width="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="600dp"
+        android:layout_height="90dp" />
+
     <TextView
         android:id="@+id/resultTv"
         android:layout_width="500dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="600dp"
         android:text=""
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
@@ -47,8 +55,8 @@
         android:id="@+id/hex"
         android:layout_width="500dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="620dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="630dp"
         android:text=""
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
@@ -57,7 +65,7 @@
         android:id="@+id/name"
         android:layout_width="500dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="70dp"
         android:layout_marginTop="660dp"
         android:text="Name: "
         android:textColor="#FFFFFF"

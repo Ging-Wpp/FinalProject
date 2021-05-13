@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +56,18 @@ public class Fcgallery extends AppCompatActivity {
         ImageView.setDrawingCacheEnabled(true);
         ImageView.buildDrawingCache(true);
 
+        final Button camera = findViewById(R.id.camera);
+        camera.setOnClickListener(v -> {
+            Intent intent1 = new Intent(Fcgallery.this, detectColor.class);
+            startActivity(intent1);
+        });
+
+        final Button gallery = findViewById(R.id.gallery);
+        gallery.setOnClickListener(v -> {
+            Intent intent1 = new Intent(Fcgallery.this, Fcgallery.class);
+            startActivity(intent1);
+        });
+
         ImageView.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE ){
                 bitmap = ImageView.getDrawingCache();
@@ -90,20 +103,20 @@ public class Fcgallery extends AppCompatActivity {
 
 
 
-                for (String s : colorCodes)
-                {
-//                        ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
-                    for(int i=0;i<colorCodes.length;i++) {
-                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
-                            ResultTv.setText("RGB: " + r + ", " + g + ", " + b);
-                            HexName.setText("\nHEX: " + hex2);
-                            Name.setText("\nColor name: " + colorNames[i]);
-                        }else{
-                            i++;
-                        }
-                        i++;
-                    }
-                }
+//                for (String s : colorCodes)
+//                {
+////                        ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
+//                    for(int i=0;i<colorCodes.length;i++) {
+//                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
+//                            ResultTv.setText("RGB: " + r + ", " + g + ", " + b);
+//                            HexName.setText("\nHEX: " + hex2);
+//                            Name.setText("\nColor name: " + colorNames[i]);
+//                        }else{
+//                            i++;
+//                        }
+//                        i++;
+//                    }
+//                }
 
 //                    for(int i=0;i<colorCodes.length;i++) {
 //                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {

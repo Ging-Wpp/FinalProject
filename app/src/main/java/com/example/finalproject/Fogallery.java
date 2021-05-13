@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,11 +54,29 @@ public class Fogallery extends AppCompatActivity {
         ImageView.setDrawingCacheEnabled(true);
         ImageView.buildDrawingCache(true);
 
+        final Button camera = findViewById(R.id.camera);
+        camera.setOnClickListener(v -> {
+            Intent intent1 = new Intent(Fogallery.this, detectColor.class);
+            startActivity(intent1);
+        });
+
+        final Button gallery = findViewById(R.id.gallery);
+        gallery.setOnClickListener(v -> {
+            Intent intent1 = new Intent(Fogallery.this, Fogallery.class);
+            startActivity(intent1);
+        });
+
+//        final Bitmap bitmap = ((BitmapDrawable)ImageView.getDrawable()).getBitmap();
+
         ImageView.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE ){
                 bitmap = ImageView.getDrawingCache();
 
                 int pixel = bitmap.getPixel((int)event.getX(), (int)event.getY());
+
+//                int x = (int)event.getX();
+//                int y = (int)event.getY();
+//                int pixel = bitmap.getPixel(x,y);
 
                 //getting RGB values
                 int r = Color.red(pixel);

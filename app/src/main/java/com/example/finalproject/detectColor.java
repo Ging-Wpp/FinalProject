@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
     private TextView Name;
     private Button colorBtn;
     Bitmap bitmap;
+    View ColorView;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
 
@@ -136,7 +138,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                 }
                 else {
                     Toast.makeText(detectColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
                     if (intent.resolveActivity(getPackageManager()) != null) {
@@ -300,6 +301,9 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         HexCode.setText("Hex Code: " + hex.toUpperCase());
 //        Name.setText("\nColor name: " + colorNames[i]);
 
+        ColorView = findViewById(R.id.colorView);
+        ColorView.setBackgroundColor(Color.rgb((int)mBlobColorRgba.val[0],(int)mBlobColorRgba.val[1],(int)mBlobColorRgba.val[2]));
+
         final Button copyText = (Button) findViewById(R.id.copy);
         TextView hexcode = (TextView)findViewById(R.id.hex);
         clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
@@ -330,11 +334,11 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             Log.e(TAG, "Contours count: " + contours.size());
             Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
 
-            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-            colorLabel.setTo(mBlobColorRgba);
+//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//            colorLabel.setTo(mBlobColorRgba);
 
-            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-            mSpectrum.copyTo(spectrumLabel);
+//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//            mSpectrum.copyTo(spectrumLabel);
         }
         return mRgba;
     }
