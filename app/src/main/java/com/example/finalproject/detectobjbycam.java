@@ -258,6 +258,9 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         Mat touchedRegionHsv = new Mat();
         Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
+        Log.d(TAG,touchedRegionRgba.toString());
+        Log.d(TAG,touchedRegionHsv.toString());
+
         // Calculate average color of touched region
         mBlobColorHsv = Core.sumElems(touchedRegionHsv);
         int pointCount = touchedRect.width * touchedRect.height;
