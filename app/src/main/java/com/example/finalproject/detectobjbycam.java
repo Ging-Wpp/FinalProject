@@ -43,7 +43,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,8 +114,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         HexCode = findViewById(R.id.hex);
         Name = findViewById(R.id.name);
 
-        final Button camera = findViewById(R.id.camera);
-        final Button gallery = findViewById(R.id.gallery);
+        final ImageButton camera = findViewById(R.id.camera);
+        final ImageButton gallery = findViewById(R.id.gallery);
 
         camera.setOnClickListener(v -> {
             Intent intent1 = new Intent(detectobjbycam.this, detectobjbycam.class);
@@ -270,6 +270,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         //converts scalar to hsv to RGB
         mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
 
+        Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
+
         Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
                 ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
@@ -295,21 +297,32 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
         HexCode.setText(String.format("Hex Code: %s", hex.toUpperCase()));
 
-        Name.setText("\nColor name: " + colorName);
+        Name.setText(colorName);
 
         ColorView = findViewById(R.id.colorView);
         ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
 
-        final Button copyText = (Button) findViewById(R.id.copy);
+        final ImageButton copyRgb = (ImageButton) findViewById(R.id.copy);
         TextView rgb = (TextView) findViewById(R.id.resultTv);
         clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        copyText.setOnClickListener(v1 -> {
+        copyRgb.setOnClickListener(v1 -> {
             String txtcopy = rgb.getText().toString();
             String copy = txtcopy.substring(5);
             clipData = ClipData.newPlainText("text", copy);
             clipboardManager.setPrimaryClip(clipData);
             Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
         });
+
+//        final ImageButton copyHex = (ImageButton) findViewById(R.id.copy);
+//        TextView hexcopy = (TextView) findViewById(R.id.hex);
+//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//        copyHex.setOnClickListener(v1 -> {
+//            String copyhex = hexcopy.getText().toString();
+//            String copy = copyhex.substring(10);
+//            clipData = ClipData.newPlainText("text", copy);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
+//        });
         return false; // don't need subsequent touch events
     }
 

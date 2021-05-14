@@ -29,7 +29,7 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        app:srcCompat="@drawable/ic_baseline_camera_24" />
+        app:srcCompat="@drawable/ic_baseline_camera_30" />
 
 
     <TextView

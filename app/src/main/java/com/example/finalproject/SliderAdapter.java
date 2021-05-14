@@ -26,7 +26,7 @@ public class SliderAdapter extends PagerAdapter {
 
     // img Array
     public int[] image_slide ={
-            R.drawable.ic_baseline_camera_24,
+            R.drawable.ic_baseline_camera_30,
             R.drawable.ic_baseline_photo_24,
             R.drawable.ic_baseline_find_in_page_24
     };

@@ -89,8 +89,7 @@ public class Fogallery extends AppCompatActivity {
             String copyrgb = rgbtxt.substring(5);
             String hextxt = hexcode.getText().toString();
             String copyhex = hextxt.substring(6);
-            String nametxt = name.getText().toString();
-            String copyname = nametxt.substring(13);
+            String copyname = name.getText().toString();
             String all = copyrgb+" "+copyhex+" "+copyname;
             clipData = ClipData.newPlainText("text",copyrgb);
             clipboardManager.setPrimaryClip(clipData);
@@ -1769,7 +1768,7 @@ public class Fogallery extends AppCompatActivity {
 //                ResultTv.setText(String.format("Hex code: #%s\nRGB: (%d, %d, %d)\nColor Name: %s", hex.toUpperCase(), redValue, greenValue, blueValue, name));
                 ResultTv.setText(String.format("RGB: %d, %d, %d", redValue, greenValue, blueValue));
                 HexName.setText("\nHEX: #" + hex.toUpperCase());
-                Name.setText("\nColor Name: "+name);
+                Name.setText(name);
             }
             return false;
         }

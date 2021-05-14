@@ -126,7 +126,7 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
         rgb.setText("RGB: " + extra);
         HexCode.setText("\nHEX: " + extra2);
-        Name.setText("\nColor Name: "+ extra3);
+        Name.setText(extra3);
 
         String[] strArray = extra.split(", ");
         int[] intArray = new int[strArray.length];
@@ -372,14 +372,23 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
         Scalar OrangeLow = new Scalar(10,100,20);
         Scalar OrangeHigh = new Scalar(25,255,255);
 
+//        float[] hsv = new float[3];
+//        Color.RGBToHSV(r, g, b, hsv);
+//
+//        int h = (int) hsv[0];
+//        float sc = hsv[1]*100f;
+//        int s = (int) sc;
+//        float vc = hsv[2]*100f;
+//        int v = (int) vc;
+//        Log.d(TAG,"h: " + h);
+//        Log.d(TAG,"s: " + s);
+//        Log.d(TAG,"v: " + v);
+
 //        greenLow = new Scalar(25, 52, 72);
 //        greenHigh = new Scalar(102, 255, 255);
 //        System.out.println(r + " " + g + " " + b);
 
-//        mBlobColorHsv = converScalarRgba2HSV(new Scalar(r,g,b));
-//        System.out.println(mBlobColorHsv);
-
-        if(r > 0 && r < 180 && g > 0 && g < 150 && b > 0 && b < 50) {
+        if(r > 0 && r < 255 && g > 0 && g < 255 && b > 0 && b < 255) {
             Core.inRange(mRgbaFiltered, blackLow, blackHigh, mRgbaFiltered);
             ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
             Mat hierarchy = new Mat();
@@ -401,27 +410,27 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
             }
         }
 
-        if(r > 10 && r < 25 && g > 100 && g < 255 && b > 20 && b < 255) {
-            Core.inRange(mRgbaFiltered, OrangeLow, OrangeHigh, mRgbaFiltered);
-            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-            Mat hierarchy = new Mat();
-            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            for (int i = 0; i < contours.size(); i++) {
-
-                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
-
-                    MatOfPoint2f approxCurve = new MatOfPoint2f();
-                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
-
-                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
-                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-                    Rect rect = Imgproc.boundingRect(points);
-
-                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
-                }
-            }
-        }
+//        if(r > 10 && r < 25 && g > 100 && g < 255 && b > 20 && b < 255) {
+//            Core.inRange(mRgbaFiltered, OrangeLow, OrangeHigh, mRgbaFiltered);
+//            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//            Mat hierarchy = new Mat();
+//            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+//            for (int i = 0; i < contours.size(); i++) {
+//
+//                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
+//
+//                    MatOfPoint2f approxCurve = new MatOfPoint2f();
+//                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//
+//                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+//                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//                    Rect rect = Imgproc.boundingRect(points);
+//
+//                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
+//                }
+//            }
+//        }
 
 
         return mRgba;

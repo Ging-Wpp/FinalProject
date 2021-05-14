@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">ColorBlindAssistance</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
+    <string name="camera">Cam</string>
+    <string name="gallery">Gall</string>
     <string name="fobj">Find Object</string>
     <string name="fcolor">Find Color</string>
     <string name="button">Button</string>
-    <string name="copy">Copy</string>
+    <string name="copy">C</string>
 
     <string name="next">Next</string>
     <string name="skip">Skip</string>

@@ -308,7 +308,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
         HexCode.setText(String.format("Hex Code: %s", hex.toUpperCase()));
 
-        Name.setText("\nColor name: " + colorName);
+        Name.setText(colorName);
 
         ColorView = findViewById(R.id.colorView);
         ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));

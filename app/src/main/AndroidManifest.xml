@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".detectObjFromGall"></activity>
-        <activity android:name=".Color" />
         <activity android:name=".detectobjbycam" />
         <activity android:name=".OKColor" />
         <activity android:name=".Fogallery" />

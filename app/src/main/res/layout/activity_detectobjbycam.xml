@@ -2,36 +2,54 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     android:layout_gravity="center">
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/camera"
-            android:layout_width="105dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ripple_effect_raised"
-            android:textColor="#FFFFFF"
-            android:text="@string/camera" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="25dp"
+            app:srcCompat="@drawable/logo" />
 
-        <Button
-            android:id="@+id/gallery"
-            android:layout_width="105dp"
-            android:layout_height="65dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ripple_effect_raised"
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:text="@string/gallery" />
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="100dp"
+            android:fontFamily="@font/helveticabold"
+            android:text="FIND OBJECT"
+            android:textSize="25sp"/>
+
+        <ImageButton
+            android:id="@+id/camera"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginTop="102dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_photo_camera_30"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/gallery"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="100dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_baseline_photo_library_30"
+            />
 
 
         <org.opencv.android.JavaCameraView
@@ -42,19 +60,30 @@
 
         <View
             android:id="@+id/colorView"
-            android:layout_width="40dp"
+            android:layout_width="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="600dp"
+            android:layout_marginTop="590dp"
             android:layout_height="90dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="500dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="1150dp"
+            android:fontFamily="@font/helveticabold"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/resultTv"
             android:layout_width="500dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="600dp"
-            android:text=""
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="620dp"
+            android:fontFamily="@font/helvetica"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
@@ -62,32 +91,54 @@
             android:id="@+id/hex"
             android:layout_width="500dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="630dp"
-            android:text=""
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="650dp"
+            android:fontFamily="@font/helvetica"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="500dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="640dp"
-            android:text=""
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
-
-        <Button
+        <ImageButton
             android:id="@+id/copy"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="65dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="600dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ripple_effect_raised"
-            android:textColor="#FFFFFF"
-            android:text="@string/copy" />
+            android:layout_marginTop="615dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_baseline_content_copy_30"
+            android:background="@android:color/transparent" />
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/multiple_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            fab:fab_addButtonColorNormal="@color/white"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/half_black"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Action A"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title="Action with a very long name that won\'t fit on the screen"
+                fab:fab_colorPressed="@color/white_pressed"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </RelativeLayout>
 
