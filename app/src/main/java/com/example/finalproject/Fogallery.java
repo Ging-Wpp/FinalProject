@@ -41,7 +41,7 @@ public class Fogallery extends AppCompatActivity {
     TextView Name;
     View ColorView;
     Bitmap bitmap;
-    private ClipData clipData;
+    private ClipData clipData,clipData2,clipData3;
     private ClipboardManager clipboardManager;
 
     //@SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
@@ -80,16 +80,29 @@ public class Fogallery extends AppCompatActivity {
         ImageView.setImageURI(myUri);
 
         final Button copyText = (Button) findViewById(R.id.copy);
+        @SuppressLint("CutPasteId") TextView rgb = (TextView)findViewById(R.id.resultTv);
         @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
+        @SuppressLint("CutPasteId") TextView name = (TextView)findViewById(R.id.name);
         clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
         copyText.setOnClickListener(v -> {
-            String txtcopy = hexcode.getText().toString();
-            String copy = txtcopy.substring(6);
-            clipData = ClipData.newPlainText("text",copy);
+            String rgbtxt = rgb.getText().toString();
+            String copyrgb = rgbtxt.substring(5);
+            String hextxt = hexcode.getText().toString();
+            String copyhex = hextxt.substring(6);
+            String nametxt = name.getText().toString();
+            String copyname = nametxt.substring(13);
+            String all = copyrgb+" "+copyhex+" "+copyname;
+            clipData = ClipData.newPlainText("text",copyrgb);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
+            clipData2 = ClipData.newPlainText("text2",copyhex);
+            clipboardManager.setPrimaryClip(clipData2);
+            clipData3 = ClipData.newPlainText("text3",copyname);
+            clipboardManager.setPrimaryClip(clipData3);
+            Toast.makeText(getApplicationContext(),"Detect Object From Gallery", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Fogallery.this,detectObjFromGall.class);
-            intent.putExtra("text",copy);
+            intent.putExtra("text",copyrgb);
+            intent.putExtra("text2",copyhex);
+            intent.putExtra("text3",copyname);
             startActivity(intent);
         });
     }
