@@ -11,6 +11,8 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -325,7 +327,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         mDetector.setHsvColor(mBlobColorHsv);
 
         // Resize the image to specture size
-        Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
+        //Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
         mIsColorSelected = true;
         //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
@@ -409,16 +411,17 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         mRgba = inputFrame.rgba();
 
         if (mIsColorSelected) { //if selected new color then re process again
-            mDetector.process(mRgba);
-            List<MatOfPoint> contours = mDetector.getContours();
-            Log.e(TAG, "Contours count: " + contours.size());
-            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
-
-//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-//            colorLabel.setTo(mBlobColorRgba);
-
-//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-//            mSpectrum.copyTo(spectrumLabel);
+//            mDetector.process(mRgba);
+//            List<MatOfPoint> contours = mDetector.getContours();
+//            MatOfPoint2f approxCurve = new MatOfPoint2f();
+//            for (int i = 0; i < contours.size(); i++) {
+//                MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//                double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+//                Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//                MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//                Rect rect = Imgproc.boundingRect(points);
+//                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+//            }
         }
         return mRgba;
     }

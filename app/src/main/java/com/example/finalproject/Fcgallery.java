@@ -74,9 +74,6 @@ public class Fcgallery extends AppCompatActivity {
         HexName = findViewById(R.id.hex);
         Name = findViewById(R.id.name);
 
-        ImageView.setDrawingCacheEnabled(true);
-        ImageView.buildDrawingCache(true);
-
         mAddFab = findViewById(R.id.add_fab);
         mAddAlarmFab = findViewById(R.id.add_alarm_fab);
         mAddPersonFab = findViewById(R.id.add_person_fab);
