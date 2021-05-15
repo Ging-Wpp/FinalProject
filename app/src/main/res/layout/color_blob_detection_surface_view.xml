@@ -1,95 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:layout_gravity="center">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/camera"
-            android:layout_width="105dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ripple_effect_raised"
-            android:textColor="#FFFFFF"
-            android:text="@string/camera" />
-
-        <Button
-            android:id="@+id/gallery"
-            android:layout_width="105dp"
-            android:layout_height="65dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ripple_effect_raised"
-            android:textColor="#FFFFFF"
-            android:text="@string/gallery" />
-
-
-        <org.opencv.android.JavaCameraView
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:layout_gravity="center">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="420dp"
-            android:layout_marginTop="150dp"
-            android:id="@+id/color_blob_detection_activity_surface_view" />
+            android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/colorView"
-            android:layout_width="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="600dp"
-            android:layout_height="90dp" />
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="25dp"
+                app:srcCompat="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/resultTv"
-            android:layout_width="500dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="600dp"
-            android:text=""
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="100dp"
+                android:fontFamily="@font/helveticabold"
+                android:text="FIND COLOR"
+                android:textSize="25sp"/>
 
-        <TextView
-            android:id="@+id/hex"
-            android:layout_width="500dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="630dp"
-            android:text=""
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            <ImageButton
+                android:id="@+id/camera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginTop="102dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_baseline_photo_camera_30"
+                android:background="@android:color/transparent" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="500dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="640dp"
-            android:text=""
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            <ImageButton
+                android:id="@+id/gallery"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="100dp"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_photo_library_30"
+                />
 
-        <Button
-            android:id="@+id/copy"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="600dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ripple_effect_raised"
-            android:textColor="#FFFFFF"
-            android:text="@string/copy" />
 
-    </RelativeLayout>
+            <org.opencv.android.JavaCameraView
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:layout_marginTop="150dp"
+                android:id="@+id/color_blob_detection_activity_surface_view" />
 
-</ScrollView>
+            <View
+                android:id="@+id/colorView"
+                android:layout_width="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="590dp"
+                android:layout_height="90dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="1150dp"
+                android:fontFamily="@font/helveticabold"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/resultTv"
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="620dp"
+                android:fontFamily="@font/helvetica"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hex"
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="650dp"
+                android:fontFamily="@font/helvetica"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <!--        <ImageButton-->
+            <!--            android:id="@+id/copy"-->
+            <!--            android:layout_width="40dp"-->
+            <!--            android:layout_height="65dp"-->
+            <!--            android:layout_alignParentRight="true"-->
+            <!--            android:layout_marginTop="615dp"-->
+            <!--            android:layout_marginRight="20dp"-->
+            <!--            android:src="@drawable/ic_baseline_content_copy_30"-->
+            <!--            android:background="@android:color/transparent" />-->
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/add_fab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="620dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@android:color/transparent"
+                app:rippleColor="@color/white"
+                app:elevation="2dp"
+                android:textColor="@color/white"
+                android:theme="@style/MyMaterialTheme"
+                app:icon="@drawable/ic_baseline_content_copy_30"
+                app:iconTint="@color/white"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_alarm_fab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="580dp"
+                android:layout_marginRight="20dp"
+                app:rippleColor="@color/white"
+                app:borderWidth="2dp"
+                android:backgroundTint="@color/black"
+                android:tint="@color/white"
+                app:elevation="2dp"
+                app:backgroundTint="@color/white"
+                app:fabSize="mini"
+                app:tint="@color/white"
+                android:theme="@style/MyMaterialTheme"
+                app:layout_constraintBottom_toTopOf="@+id/add_fab"
+                app:layout_constraintEnd_toEndOf="@+id/add_fab"
+                app:srcCompat="@drawable/ic_baseline_content_copy_30"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/add_alarm_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="592dp"
+                android:layout_marginRight="70dp"
+                android:text="Hex"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/add_alarm_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_alarm_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_alarm_fab" />
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_person_fab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="535dp"
+                android:layout_marginRight="20dp"
+                android:contentDescription="@string/app_name"
+                app:rippleColor="@color/white"
+                app:borderWidth="2dp"
+                android:backgroundTint="@color/black"
+                android:tint="@color/white"
+                app:elevation="2dp"
+                app:backgroundTint="@color/white"
+                app:fabSize="mini"
+                android:theme="@style/MyMaterialTheme"
+                app:layout_constraintBottom_toTopOf="@+id/add_alarm_fab"
+                app:layout_constraintEnd_toEndOf="@+id/add_alarm_fab"
+                app:layout_constraintStart_toStartOf="@+id/add_alarm_fab"
+                app:srcCompat="@drawable/ic_baseline_content_copy_30"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/add_person_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="545dp"
+                android:layout_marginRight="70dp"
+                android:text="RGB"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/add_person_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_person_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_person_fab" />
+
+        </RelativeLayout>
+
+    </ScrollView>
     <!--</FrameLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

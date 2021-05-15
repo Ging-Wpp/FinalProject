@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class detectObjFromGall extends AppCompatActivity implements CvCameraViewListener2 {
     private static final String TAG = "detectObjFromGall";
@@ -68,10 +72,10 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
     private TextView rgb;
     private TextView HexCode;
     private TextView Name;
-    int r,g,b;
+    int r, g, b;
 
     View ColorView;
-//    Bitmap bitmap;
+    //    Bitmap bitmap;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
     private CameraBridgeViewBase mOpenCvCameraView;
@@ -79,13 +83,18 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 200;
 
+    FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    ExtendedFloatingActionButton mAddFab;
+    TextView addAlarmActionText, addPersonActionText;
+    Boolean isAllFabsVisible;
+
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             if (status == LoaderCallbackInterface.SUCCESS) {
                 Log.i(TAG, "OpenCV loaded successfully");
                 mOpenCvCameraView.enableView();
-//                mOpenCvCameraView.setOnTouchListener(detectObjFromGall.this);
+                //mOpenCvCameraView.setOnTouchListener(detectObjFromGall.this);
             } else {
                 super.onManagerConnected(status);
             }
@@ -130,7 +139,7 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
         String[] strArray = extra.split(", ");
         int[] intArray = new int[strArray.length];
-        for(int i = 0; i < strArray.length; i++) {
+        for (int i = 0; i < strArray.length; i++) {
             intArray[i] = Integer.parseInt(strArray[i]);
         }
         r = intArray[0];
@@ -144,8 +153,8 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
         ColorView = findViewById(R.id.colorView);
         ColorView.setBackgroundColor(Color.rgb(r, g, b));
 
-        final Button camera = findViewById(R.id.camera);
-        final Button gallery = findViewById(R.id.gallery);
+        final ImageButton camera = findViewById(R.id.camera);
+        final ImageButton gallery = findViewById(R.id.gallery);
 
         camera.setOnClickListener(v -> {
             Intent intent1 = new Intent(detectObjFromGall.this, detectobjbycam.class);
@@ -165,6 +174,57 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
                 }
             }
         });
+
+        mAddFab = findViewById(R.id.add_fab);
+        mAddAlarmFab = findViewById(R.id.add_alarm_fab);
+        mAddPersonFab = findViewById(R.id.add_person_fab);
+        addAlarmActionText = findViewById(R.id.add_alarm_action_text);
+        addPersonActionText = findViewById(R.id.add_person_action_text);
+
+        mAddAlarmFab.setVisibility(View.GONE);
+        mAddPersonFab.setVisibility(View.GONE);
+        addAlarmActionText.setVisibility(View.GONE);
+        addPersonActionText.setVisibility(View.GONE);
+        isAllFabsVisible = false;
+        mAddFab.shrink();
+
+        mAddFab.setOnClickListener(view -> {
+            if (!isAllFabsVisible) {
+                mAddAlarmFab.show();
+                mAddPersonFab.show();
+                addAlarmActionText.setVisibility(View.VISIBLE);
+                addPersonActionText.setVisibility(View.VISIBLE);
+                mAddFab.extend();
+                isAllFabsVisible = true;
+            } else {
+                mAddAlarmFab.hide();
+                mAddPersonFab.hide();
+                addAlarmActionText.setVisibility(View.GONE);
+                addPersonActionText.setVisibility(View.GONE);
+                mAddFab.shrink();
+                isAllFabsVisible = false;
+            }
+        });
+
+        TextView rgb = (TextView) findViewById(R.id.resultTv);
+        TextView hexcp = (TextView) findViewById(R.id.hex);
+        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        mAddPersonFab.setOnClickListener(view -> {
+            String txtcopy = rgb.getText().toString();
+            String copy = txtcopy.substring(5);
+            clipData = ClipData.newPlainText("text", copy);
+            clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(detectObjFromGall.this, copy, Toast.LENGTH_SHORT).show();
+        });
+        mAddAlarmFab.setOnClickListener(view -> {
+            String txtcopy = hexcp.getText().toString();
+            String copy2 = txtcopy.substring(5);
+            clipData = ClipData.newPlainText("text2", copy2);
+            clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(detectObjFromGall.this, copy2, Toast.LENGTH_SHORT).show();
+        });
+
 
     }//end oncreate
 
@@ -250,7 +310,47 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
     // When a motion event happens (someone touches the device)
 //    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
-//    public boolean onTouch(View v, MotionEvent event) {
+    //public boolean onTouch(View v, MotionEvent event) {
+
+//        mAddFab.shrink();
+//
+//        mAddFab.setOnClickListener(view -> {
+//            if (!isAllFabsVisible) {
+//                mAddAlarmFab.show();
+//                mAddPersonFab.show();
+//                addAlarmActionText.setVisibility(View.VISIBLE);
+//                addPersonActionText.setVisibility(View.VISIBLE);
+//                mAddFab.extend();
+//                isAllFabsVisible = true;
+//            } else {
+//                mAddAlarmFab.hide();
+//                mAddPersonFab.hide();
+//                addAlarmActionText.setVisibility(View.GONE);
+//                addPersonActionText.setVisibility(View.GONE);
+//                mAddFab.shrink();
+//                isAllFabsVisible = false;
+//            }
+//        });
+//
+//        TextView rgb = (TextView) findViewById(R.id.resultTv);
+//        TextView hexcp = (TextView) findViewById(R.id.hex);
+//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//
+//        mAddPersonFab.setOnClickListener(view -> {
+//            String txtcopy = rgb.getText().toString();
+//            String copy = txtcopy.substring(5);
+//            clipData = ClipData.newPlainText("text", copy);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(detectObjFromGall.this, copy, Toast.LENGTH_SHORT).show();
+//        });
+//        mAddAlarmFab.setOnClickListener(view -> {
+//            String txtcopy = hexcp.getText().toString();
+//            String copy2 = txtcopy.substring(5);
+//            clipData = ClipData.newPlainText("text2", copy2);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(detectObjFromGall.this, copy2, Toast.LENGTH_SHORT).show();
+//        });
+
 //        int cols = mRgba.cols(); //get resolution of display
 //        int rows = mRgba.rows(); //get resolution of display
 //

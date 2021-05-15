@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +49,11 @@ public class Fcgallery extends AppCompatActivity {
     Bitmap bitmap;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
+
+    FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    ExtendedFloatingActionButton mAddFab;
+    TextView addAlarmActionText, addPersonActionText;
+    Boolean isAllFabsVisible;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.O) /*Long Color can only be used for android version O or higher */
@@ -65,13 +74,25 @@ public class Fcgallery extends AppCompatActivity {
         ImageView.setDrawingCacheEnabled(true);
         ImageView.buildDrawingCache(true);
 
-        final Button camera = findViewById(R.id.camera);
+        mAddFab = findViewById(R.id.add_fab);
+        mAddAlarmFab = findViewById(R.id.add_alarm_fab);
+        mAddPersonFab = findViewById(R.id.add_person_fab);
+        addAlarmActionText = findViewById(R.id.add_alarm_action_text);
+        addPersonActionText = findViewById(R.id.add_person_action_text);
+
+        mAddAlarmFab.setVisibility(View.GONE);
+        mAddPersonFab.setVisibility(View.GONE);
+        addAlarmActionText.setVisibility(View.GONE);
+        addPersonActionText.setVisibility(View.GONE);
+        isAllFabsVisible = false;
+
+        final ImageButton camera = findViewById(R.id.camera);
         camera.setOnClickListener(v -> {
             Intent intent1 = new Intent(Fcgallery.this, detectColor.class);
             startActivity(intent1);
         });
 
-        final Button gallery = findViewById(R.id.gallery);
+        final ImageButton gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
@@ -176,15 +197,55 @@ public class Fcgallery extends AppCompatActivity {
 //            startActivity(intent1);
 //        });
 
-        final Button copyText = (Button) findViewById(R.id.copy);
-        @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
-        clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-        copyText.setOnClickListener(v -> {
-            String txtcopy = hexcode.getText().toString();
-            String copy = txtcopy.substring(6);
-            clipData = ClipData.newPlainText("text",copy);
+//        final ImageButton copyText = (ImageButton) findViewById(R.id.copy);
+//        @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
+//        clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+//        copyText.setOnClickListener(v -> {
+//            String txtcopy = hexcode.getText().toString();
+//            String copy = txtcopy.substring(6);
+//            clipData = ClipData.newPlainText("text",copy);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
+//        });
+
+        mAddFab.shrink();
+
+        mAddFab.setOnClickListener(view -> {
+            if (!isAllFabsVisible) {
+                mAddAlarmFab.show();
+                mAddPersonFab.show();
+                addAlarmActionText.setVisibility(View.VISIBLE);
+                addPersonActionText.setVisibility(View.VISIBLE);
+                mAddFab.extend();
+                isAllFabsVisible = true;
+            }
+            else {
+                mAddAlarmFab.hide();
+                mAddPersonFab.hide();
+                addAlarmActionText.setVisibility(View.GONE);
+                addPersonActionText.setVisibility(View.GONE);
+                mAddFab.shrink();
+                isAllFabsVisible = false;
+            }
+        });
+
+        TextView rgb = (TextView) findViewById(R.id.resultTv);
+        TextView hexcp = (TextView) findViewById(R.id.hex);
+        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        mAddPersonFab.setOnClickListener(view ->{
+            String txtcopy = rgb.getText().toString();
+            String copy = txtcopy.substring(5);
+            clipData = ClipData.newPlainText("text", copy);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
+            Toast.makeText(Fcgallery.this, copy, Toast.LENGTH_SHORT).show();
+        });
+        mAddAlarmFab.setOnClickListener(view -> {
+            String txtcopy = hexcp.getText().toString();
+            String copy2 = txtcopy.substring(5);
+            clipData = ClipData.newPlainText("text2", copy2);
+            clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(Fcgallery.this, copy2, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -1820,7 +1881,7 @@ public class Fcgallery extends AppCompatActivity {
 //                ResultTv.setText(String.format("Hex code: #%s\nRGB: (%d, %d, %d)\nColor Name: %s", hex.toUpperCase(), redValue, greenValue, blueValue, name));
                 ResultTv.setText(String.format("RGB: %d, %d, %d", redValue, greenValue, blueValue));
                 HexName.setText("\nHEX: #" + hex.toUpperCase());
-                Name.setText("\nColor Name: "+name);
+                Name.setText(name);
             }
             return false;
         }
