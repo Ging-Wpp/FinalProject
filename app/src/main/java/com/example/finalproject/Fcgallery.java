@@ -28,12 +28,15 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import www.sanju.motiontoast.MotionToast;
 
 
 public class Fcgallery extends AppCompatActivity {
@@ -238,14 +241,16 @@ public class Fcgallery extends AppCompatActivity {
             String copy = txtcopy.substring(5);
             clipData = ClipData.newPlainText("text", copy);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(Fcgallery.this, copy, Toast.LENGTH_SHORT).show();
+            MotionToast.Companion.darkColorToast(Fcgallery.this,"RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
         });
         mAddAlarmFab.setOnClickListener(view -> {
             String txtcopy = hexcp.getText().toString();
             String copy2 = txtcopy.substring(5);
             clipData = ClipData.newPlainText("text2", copy2);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(Fcgallery.this, copy2, Toast.LENGTH_SHORT).show();
+            MotionToast.Companion.darkColorToast(Fcgallery.this,"Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
         });
     }
 
