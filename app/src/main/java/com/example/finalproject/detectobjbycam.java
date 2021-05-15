@@ -52,6 +52,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 public class detectobjbycam extends AppCompatActivity implements OnTouchListener, CvCameraViewListener2 {
     private static final String TAG = "detectobjbycam";
 
@@ -75,6 +79,11 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 200;
+
+    FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    ExtendedFloatingActionButton mAddFab;
+    TextView addAlarmActionText, addPersonActionText;
+    Boolean isAllFabsVisible;
 
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -117,6 +126,18 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         final ImageButton camera = findViewById(R.id.camera);
         final ImageButton gallery = findViewById(R.id.gallery);
 
+        mAddFab = findViewById(R.id.add_fab);
+        mAddAlarmFab = findViewById(R.id.add_alarm_fab);
+        mAddPersonFab = findViewById(R.id.add_person_fab);
+        addAlarmActionText = findViewById(R.id.add_alarm_action_text);
+        addPersonActionText = findViewById(R.id.add_person_action_text);
+
+        mAddAlarmFab.setVisibility(View.GONE);
+        mAddPersonFab.setVisibility(View.GONE);
+        addAlarmActionText.setVisibility(View.GONE);
+        addPersonActionText.setVisibility(View.GONE);
+        isAllFabsVisible = false;
+
         camera.setOnClickListener(v -> {
             Intent intent1 = new Intent(detectobjbycam.this, detectobjbycam.class);
             startActivity(intent1);
@@ -135,6 +156,7 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
                 }
             }
         });
+
 
     }//end oncreate
 
@@ -295,22 +317,71 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         Log.d(TAG, colorName);
 
         rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
-        HexCode.setText(String.format("Hex Code: %s", hex.toUpperCase()));
+        HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
 
         Name.setText(colorName);
 
         ColorView = findViewById(R.id.colorView);
         ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
 
-        final ImageButton copyRgb = (ImageButton) findViewById(R.id.copy);
+//        final FloatingActionButton fab = findViewById(R.id.add_fab);
+//        TextView rgb = (TextView) findViewById(R.id.resultTv);
+//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//        fab.setOnClickListener(v1 -> {
+//            String txtcopy = rgb.getText().toString();
+//            String copy = txtcopy.substring(5);
+//            clipData = ClipData.newPlainText("text", copy);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
+//        });
+
+        mAddFab.shrink();
+
+        mAddFab.setOnClickListener(view -> {
+            if (!isAllFabsVisible) {
+                mAddAlarmFab.show();
+                mAddPersonFab.show();
+                addAlarmActionText.setVisibility(View.VISIBLE);
+                addPersonActionText.setVisibility(View.VISIBLE);
+                mAddFab.extend();
+                isAllFabsVisible = true;
+            }
+            else {
+                mAddAlarmFab.hide();
+                mAddPersonFab.hide();
+                addAlarmActionText.setVisibility(View.GONE);
+                addPersonActionText.setVisibility(View.GONE);
+                mAddFab.shrink();
+                isAllFabsVisible = false;
+            }
+        });
+
+        //        final FloatingActionButton fab = findViewById(R.id.add_fab);
+//        mAddPersonFab.setOnClickListener(v1 -> {
+//            String txtcopy = rgb.getText().toString();
+//            String copy = txtcopy.substring(5);
+//            clipData = ClipData.newPlainText("text", copy);
+//            clipboardManager.setPrimaryClip(clipData);
+//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
+//        });
+
         TextView rgb = (TextView) findViewById(R.id.resultTv);
+        TextView hexcp = (TextView) findViewById(R.id.hex);
         clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        copyRgb.setOnClickListener(v1 -> {
-            String txtcopy = rgb.getText().toString();
-            String copy = txtcopy.substring(5);
-            clipData = ClipData.newPlainText("text", copy);
-            clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
+
+        mAddPersonFab.setOnClickListener(view ->{
+                    String txtcopy = rgb.getText().toString();
+                    String copy = txtcopy.substring(5);
+                    clipData = ClipData.newPlainText("text", copy);
+                    clipboardManager.setPrimaryClip(clipData);
+                    Toast.makeText(detectobjbycam.this, copy, Toast.LENGTH_SHORT).show();
+        });
+        mAddAlarmFab.setOnClickListener(view -> {
+                    String txtcopy = hexcp.getText().toString();
+                    String copy2 = txtcopy.substring(5);
+                    clipData = ClipData.newPlainText("text2", copy2);
+                    clipboardManager.setPrimaryClip(clipData);
+                    Toast.makeText(detectobjbycam.this, copy2, Toast.LENGTH_SHORT).show();
         });
 
 //        final ImageButton copyHex = (ImageButton) findViewById(R.id.copy);

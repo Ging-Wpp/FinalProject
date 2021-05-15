@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,13 +60,13 @@ public class Fogallery extends AppCompatActivity {
         HexName = findViewById(R.id.hex);
         Name = findViewById(R.id.name);
 
-        final Button camera = findViewById(R.id.camera);
+        final ImageButton camera = findViewById(R.id.camera);
         camera.setOnClickListener(v -> {
             Intent intent1 = new Intent(Fogallery.this, detectobjbycam.class);
             startActivity(intent1);
         });
 
-        final Button gallery = findViewById(R.id.gallery);
+        final ImageButton gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
@@ -79,7 +80,7 @@ public class Fogallery extends AppCompatActivity {
         Uri myUri = Uri.parse(extras.getString("imageUri"));
         ImageView.setImageURI(myUri);
 
-        final Button copyText = (Button) findViewById(R.id.copy);
+        final ImageButton copyText = (ImageButton) findViewById(R.id.copy);
         @SuppressLint("CutPasteId") TextView rgb = (TextView)findViewById(R.id.resultTv);
         @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
         @SuppressLint("CutPasteId") TextView name = (TextView)findViewById(R.id.name);

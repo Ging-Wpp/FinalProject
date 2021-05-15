@@ -1,104 +1,120 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/white">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".Fogallery">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/camera"
-                android:layout_width="105dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="70dp"
-                android:background="@drawable/ripple_effect_raised"
-                android:textColor="#FFFFFF"
-                android:text="@string/camera"/>
-
-            <Button
-                android:id="@+id/gallery"
-                android:layout_width="105dp"
-                android:layout_height="65dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ripple_effect_raised"
-                android:text="@string/gallery"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="60dp"
-            android:contentDescription="@string/app_name" />
-
+        android:background="@color/black"
+        android:layout_gravity="center">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="25dp"
+                app:srcCompat="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="100dp"
+                android:fontFamily="@font/helveticabold"
+                android:text="FIND OBJECT"
+                android:textSize="25sp"/>
+
+            <ImageButton
+                android:id="@+id/camera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginTop="102dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_baseline_photo_camera_30"
+                android:background="@android:color/transparent" />
+
+            <ImageButton
+                android:id="@+id/gallery"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="100dp"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_photo_library_30"
+                />
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="160dp"
+                android:contentDescription="@string/app_name" />
 
             <View
                 android:id="@+id/colorView"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="590dp"
                 android:layout_height="90dp" />
 
             <TextView
+                android:id="@+id/name"
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="1150dp"
+                android:fontFamily="@font/helveticabold"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+            <TextView
                 android:id="@+id/resultTv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="10dp"
-                android:text=""
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="620dp"
+                android:fontFamily="@font/helvetica"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/hex"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="20dp"
-                android:text=""
+                android:layout_width="500dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="635dp"
+                android:fontFamily="@font/helvetica"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="50dp"
-                android:text=""
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <Button
+            <ImageButton
                 android:id="@+id/copy"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="65dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/ripple_effect_raised"
-                android:text="@string/copy" />
+                android:layout_marginTop="605dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_baseline_image_search_30"
+                android:background="@android:color/transparent" />
+
+
         </RelativeLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+    <!--</FrameLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
