@@ -52,10 +52,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class detectobjbycam extends AppCompatActivity implements OnTouchListener, CvCameraViewListener2 {
     private static final String TAG = "detectobjbycam";
@@ -386,14 +389,18 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
                     String copy = txtcopy.substring(5);
                     clipData = ClipData.newPlainText("text", copy);
                     clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(detectobjbycam.this, copy, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(detectobjbycam.this, copy, Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.darkColorToast(detectobjbycam.this,"RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
         });
         mAddAlarmFab.setOnClickListener(view -> {
                     String txtcopy = hexcp.getText().toString();
                     String copy2 = txtcopy.substring(5);
                     clipData = ClipData.newPlainText("text2", copy2);
                     clipboardManager.setPrimaryClip(clipData);
-                    Toast.makeText(detectobjbycam.this, copy2, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(detectobjbycam.this, copy2, Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.darkColorToast(detectobjbycam.this,"Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
         });
 
 //        final ImageButton copyHex = (ImageButton) findViewById(R.id.copy);

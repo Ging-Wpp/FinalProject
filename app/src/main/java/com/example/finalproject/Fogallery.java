@@ -27,9 +27,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class Fogallery extends AppCompatActivity {
 
@@ -109,7 +112,8 @@ public class Fogallery extends AppCompatActivity {
             clipboardManager.setPrimaryClip(clipData2);
             clipData3 = ClipData.newPlainText("text3",copyname);
             clipboardManager.setPrimaryClip(clipData3);
-            Toast.makeText(getApplicationContext(),"Detect Object From Gallery", Toast.LENGTH_SHORT).show();
+            MotionToast.Companion.darkColorToast(Fogallery.this,"Ready to find Object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
             Intent intent = new Intent(Fogallery.this,detectObjFromGall.class);
             intent.putExtra("text",copyrgb);
             intent.putExtra("text2",copyhex);

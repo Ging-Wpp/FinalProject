@@ -1,6 +1,5 @@
 package com.example.finalproject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,12 +35,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -53,9 +50,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class detectObjFromGall extends AppCompatActivity implements CvCameraViewListener2 {
     private static final String TAG = "detectObjFromGall";
@@ -74,6 +74,14 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
     private TextView HexCode;
     private TextView Name;
     int r, g, b;
+
+    private int pixel,x,y,xOffset,yOffset,cols,rows;
+
+    Rect touchedRect;
+
+    String extra4;
+
+    Mat touchedRegionRgba;
 
     View ColorView;
     //    Bitmap bitmap;
@@ -122,7 +130,40 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
         String extra = getIntent().getStringExtra("text");
         String extra2 = getIntent().getStringExtra("text2");
         String extra3 = getIntent().getStringExtra("text3");
-//        Log.d(TAG,extra);
+
+//        String colStr =getIntent().getStringExtra("copyCols");
+//        cols = Integer.parseInt(colStr);
+//
+//        String rowStr =getIntent().getStringExtra("copyRows");
+//        rows = Integer.parseInt(rowStr);
+
+//        Intent intent = getIntent();
+//        cols = intent.getExtras();
+
+
+//        pixel = getIntent().getIntExtra("pixel",0);
+//        Log.d(TAG,"" + pixel);
+//
+//        x = getIntent().getIntExtra("x",0);
+//        y = getIntent().getIntExtra("y",0);
+//        Log.d(TAG, "" + x + ", " + y);
+//
+//        cols = getIntent().getIntExtra("copyCols",10);
+//        rows = getIntent().getIntExtra("copyRows",0);
+//        Log.d(TAG, "Cols/rows: " + cols + ", " + rows);
+
+        Bundle extras1 = getIntent().getExtras();
+        cols = extras1.getInt("copyCols");
+
+        Bundle extras2 = getIntent().getExtras();
+        rows = extras2.getInt("copyRows");
+        Log.d(TAG, "Cols/rows: " + cols + ", " + rows);
+//
+//        xOffset = getIntent().getIntExtra("copyOffsetX",0);
+//        yOffset = getIntent().getIntExtra("copyOffsetY",0);
+//        Log.d(TAG, "" + xOffset + ", " + yOffset);
+//
+//        Log.d(TAG,extra4);
 //        Log.d(TAG,extra2);
 //        Log.d(TAG,extra3);
 
@@ -227,14 +268,16 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
             String copy = txtcopy.substring(5);
             clipData = ClipData.newPlainText("text", copy);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(detectObjFromGall.this, copy, Toast.LENGTH_SHORT).show();
+            MotionToast.Companion.darkColorToast(detectObjFromGall.this,"RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(detectObjFromGall.this, R.font.helvetica_regular));
         });
         mAddAlarmFab.setOnClickListener(view -> {
             String txtcopy = hexcp.getText().toString();
             String copy2 = txtcopy.substring(5);
             clipData = ClipData.newPlainText("text2", copy2);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(detectObjFromGall.this, copy2, Toast.LENGTH_SHORT).show();
+            MotionToast.Companion.darkColorToast(detectObjFromGall.this,"Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(detectObjFromGall.this, R.font.helvetica_regular));
         });
 
 
@@ -312,13 +355,29 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
     }
 
     public void onCameraViewStarted(int width, int height) {
-        mRgba = new Mat(height, width, CvType.CV_8UC4);
+        //mRgba = new Mat(height, width, CvType.CV_8UC4);
         mRgbaFiltered = new Mat(height, width, CvType.CV_8UC4);
+
+        mRgba = new Mat(height, width, CvType.CV_8UC4);
+        mDetector = new ColorBlobDetector();
+        mSpectrum = new Mat();
+        mBlobColorRgba = new Scalar(255);
+        mBlobColorHsv = new Scalar(255);
+        SPECTRUM_SIZE = new Size(200, 64);
+        //Scalar กำหนดเป็นพื้นที่สีอื่น
+        Scalar CONTOUR_COLOR = new Scalar(255, 0, 0, 255);
+
     }
 
     public void onCameraViewStopped() {
         mRgba.release();
     }
+
+    @Override
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        return inputFrame.rgba();
+    }
+
 
     // When a motion event happens (someone touches the device)
 //    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
@@ -446,43 +505,151 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 //        return false; // don't need subsequent touch events
 //    }
 
-    public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
+//    public boolean checkXY(int x, int y){
+//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)){
+//            return false;
+//        }
+//        return false;
+//    }
+
+    /*public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
         mRgba = inputFrame.rgba();
-        Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_RGB2HSV);
+        //Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_RGB2HSV);
+
+//        cols = mRgba.cols(); //get resolution of display
+//        rows = mRgba.rows(); //get resolution of display
+//
+//        Log.d(TAG, "cols/rows: " + cols + ", " + rows);
+//
+//        xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
+//        yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
+//
+//        Log.d(TAG, "xyoffset: " + xOffset + ", " + yOffset);
+//
+//        //The place where the screen was touched
+//        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
+
+//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
+
+        checkXY(x,y);
+
+        Rect touchedRect = new Rect();
+
+        //Ensure it is a multiple of 4
+        touchedRect.x = (x > 4) ? x - 4 : 0;
+        touchedRect.y = (y > 4) ? y - 4 : 0;
+
+        Log.d(TAG, "touchedRect: " + touchedRect.x + ", " + touchedRect.y);
+
+        // If  x+4 < cols then ?"" else :""
+        touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
+        touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
+        Log.d(TAG, "touchedRectWH: " + touchedRect.width + ", " + touchedRect.height);
+
+        //create a touched regionmat from the image created from the touches
+        Mat touchedRegionRgba = mRgba.submat(touchedRect);
+        Log.d(TAG, "touchedRect: " + touchedRegionRgba.toString());
+
+        //Convert the new mat to HSV colour space
+        Mat touchedRegionHsv = new Mat();
+        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
+
+//        Log.d(TAG,touchedRegionRgba.toString());
+//        Log.d(TAG,touchedRegionHsv.toString());
+
+        // Calculate average color of touched region
+        mBlobColorHsv = Core.sumElems(touchedRegionHsv);
+
+        Log.d(TAG,touchedRegionHsv.toString());
+
+        int pointCount = touchedRect.width * touchedRect.height;
+        for (int i = 0; i < mBlobColorHsv.val.length; i++)
+            mBlobColorHsv.val[i] /= pointCount;
+
+        //converts scalar to hsv to RGB
+        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
+
+        Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
+
+        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
+                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
+
+        mDetector.setHsvColor(mBlobColorHsv);
+
+        // Resize the image to specture size
+        Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
+
+        //mIsColorSelected = true;
+        //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
+
+
+        // Release all mats
+        touchedRegionRgba.release();
+        touchedRegionHsv.release();
+
+        mDetector.process(mRgba);
+        List<MatOfPoint> contours = mDetector.getContours();
+        Log.e(TAG, "Contours count: " + contours.size());
+        MatOfPoint2f approxCurve = new MatOfPoint2f();
+        //For each contour found
+        for (int i = 0; i < contours.size(); i++) {
+
+//                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+//                Mat colorLabel = mRgba.submat(20, 68, 20, 278);
+//                colorLabel.setTo(mBlobColorRgba);
+//                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//                mSpectrum.copyTo(spectrumLabel);
+
+            //Convert contours(i) from MatOfPoint to MatOfPoint2f
+            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+            //Processing on mMOP2f1 which is in type MatOfPoint2f
+            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+
+            //Convert back to MatOfPoint
+            MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+
+            // Get bounding rect of contour
+            Rect rect = Imgproc.boundingRect(points);
+
+            // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
+//                Core.rectangle(contoursFrame, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), (255, 0, 0, 255), 3);
+            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+        }
 
 //        Scalar sc = new Scalar(r,g,b);
 
         //Red
-        Scalar redLow = new Scalar(136, 87, 111);
-        Scalar redHigh = new Scalar(180, 255, 255);
-
-        //Green
-        Scalar Greenlower = new Scalar(45, 100, 100);
-        Scalar Greenupper = new Scalar(75, 255, 255);
-
-        //Purple
-        Scalar Purplelower = new Scalar(135, 0, 0);
-        Scalar Purpleupper = new Scalar(145, 0, 255);
-
-        //White
-        Scalar lower = new Scalar(0, 0, 0);
-        Scalar upper = new Scalar(0, 0, 255);
-
-        //Blue
-        Scalar blueLow = new Scalar(94, 80, 2);
-        Scalar blueHigh = new Scalar(120, 255, 255);
-
-        //Yellow
-        Scalar yellowL = new Scalar(25, 100, 20);
-        Scalar yellowH = new Scalar(32, 255, 255);
-
-        //Black
-        Scalar blackLow = new Scalar(0,0,0);
-        Scalar blackHigh = new Scalar(180,150,50);
-
-        //Orange
-        Scalar OrangeLow = new Scalar(10,100,20);
-        Scalar OrangeHigh = new Scalar(25,255,255);
+//        Scalar redLow = new Scalar(136, 87, 111);
+//        Scalar redHigh = new Scalar(180, 255, 255);
+//
+//        //Green
+//        Scalar Greenlower = new Scalar(45, 100, 100);
+//        Scalar Greenupper = new Scalar(75, 255, 255);
+//
+//        //Purple
+//        Scalar Purplelower = new Scalar(135, 0, 0);
+//        Scalar Purpleupper = new Scalar(145, 0, 255);
+//
+//        //White
+//        Scalar lower = new Scalar(0, 0, 0);
+//        Scalar upper = new Scalar(0, 0, 255);
+//
+//        //Blue
+//        Scalar blueLow = new Scalar(94, 80, 2);
+//        Scalar blueHigh = new Scalar(120, 255, 255);
+//
+//        //Yellow
+//        Scalar yellowL = new Scalar(25, 100, 20);
+//        Scalar yellowH = new Scalar(32, 255, 255);
+//
+//        //Black
+//        Scalar blackLow = new Scalar(0,0,0);
+//        Scalar blackHigh = new Scalar(180,150,50);
+//
+//        //Orange
+//        Scalar OrangeLow = new Scalar(10,100,20);
+//        Scalar OrangeHigh = new Scalar(25,255,255);
 
 //        float[] hsv = new float[3];
 //        Color.RGBToHSV(r, g, b, hsv);
@@ -500,27 +667,27 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 //        greenHigh = new Scalar(102, 255, 255);
 //        System.out.println(r + " " + g + " " + b);
 
-        if(r > 0 && r < 255 && g > 0 && g < 255 && b > 0 && b < 255) {
-            Core.inRange(mRgbaFiltered, blackLow, blackHigh, mRgbaFiltered);
-            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-            Mat hierarchy = new Mat();
-            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-            for (int i = 0; i < contours.size(); i++) {
-
-                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
-
-                    MatOfPoint2f approxCurve = new MatOfPoint2f();
-                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
-
-                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
-                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-                    Rect rect = Imgproc.boundingRect(points);
-
-                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
-                }
-            }
-        }
+//        if(r > 0 && r < 255 && g > 0 && g < 255 && b > 0 && b < 255) {
+//            Core.inRange(mRgbaFiltered, blackLow, blackHigh, mRgbaFiltered);
+//            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//            Mat hierarchy = new Mat();
+//            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+//            for (int i = 0; i < contours.size(); i++) {
+//
+//                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
+//
+//                    MatOfPoint2f approxCurve = new MatOfPoint2f();
+//                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//
+//                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+//                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//                    Rect rect = Imgproc.boundingRect(points);
+//
+//                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
+//                }
+//            }
+//        }
 
 //        if(r > 10 && r < 25 && g > 100 && g < 255 && b > 20 && b < 255) {
 //            Core.inRange(mRgbaFiltered, OrangeLow, OrangeHigh, mRgbaFiltered);
@@ -546,7 +713,7 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
 
         return mRgba;
-    }
+    }*/
 
     //final conversion
     private Scalar converScalarRgba2HSV(Scalar rgba) {
