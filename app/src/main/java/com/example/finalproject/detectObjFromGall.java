@@ -45,6 +45,7 @@ import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -204,6 +205,17 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
                 mAddFab.shrink();
                 isAllFabsVisible = false;
             }
+        });
+
+        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(detectObjFromGall.this,MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = (TextView)findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(detectObjFromGall.this,MainActivity.class);
+            startActivity(intent);
         });
 
         TextView rgb = (TextView) findViewById(R.id.resultTv);

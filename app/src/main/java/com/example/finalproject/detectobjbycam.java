@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -364,6 +365,17 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 //            clipboardManager.setPrimaryClip(clipData);
 //            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
 //        });
+
+        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(detectobjbycam.this,MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = (TextView)findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(detectobjbycam.this,MainActivity.class);
+            startActivity(intent);
+        });
 
         TextView rgb = (TextView) findViewById(R.id.resultTv);
         TextView hexcp = (TextView) findViewById(R.id.hex);

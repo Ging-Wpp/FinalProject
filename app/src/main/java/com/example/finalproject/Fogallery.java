@@ -80,6 +80,17 @@ public class Fogallery extends AppCompatActivity {
         Uri myUri = Uri.parse(extras.getString("imageUri"));
         ImageView.setImageURI(myUri);
 
+        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(Fogallery.this,MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = (TextView)findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(Fogallery.this,MainActivity.class);
+            startActivity(intent);
+        });
+
         final ImageButton copyText = (ImageButton) findViewById(R.id.copy);
         @SuppressLint("CutPasteId") TextView rgb = (TextView)findViewById(R.id.resultTv);
         @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);

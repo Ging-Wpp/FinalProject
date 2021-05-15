@@ -42,6 +42,7 @@ import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -169,6 +170,17 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                     }
                 }
             }
+        });
+
+        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(detectColor.this,MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = (TextView)findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(detectColor.this,MainActivity.class);
+            startActivity(intent);
         });
 
 //        mResultTv = findViewById(R.id.resultTv);

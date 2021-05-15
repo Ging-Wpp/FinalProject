@@ -175,6 +175,17 @@ public class Fcgallery extends AppCompatActivity {
         Uri myUri = Uri.parse(extras.getString("imageUri"));
         ImageView.setImageURI(myUri);
 
+        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(Fcgallery.this,MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = (TextView)findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(Fcgallery.this,MainActivity.class);
+            startActivity(intent);
+        });
+
 //        final Button gallery = (Button)findViewById(R.id.again_btn);
 //
 //        gallery.setOnClickListener(v -> {
