@@ -112,7 +112,7 @@ public class Fogallery extends AppCompatActivity {
             clipboardManager.setPrimaryClip(clipData2);
             clipData3 = ClipData.newPlainText("text3",copyname);
             clipboardManager.setPrimaryClip(clipData3);
-            MotionToast.Companion.darkColorToast(Fogallery.this,"Ready to find Object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+            MotionToast.Companion.darkColorToast(Fogallery.this,"Ready to find object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
                     ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
             Intent intent = new Intent(Fogallery.this,detectObjFromGall.class);
             intent.putExtra("text",copyrgb);

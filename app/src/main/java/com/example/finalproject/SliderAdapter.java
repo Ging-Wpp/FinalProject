@@ -26,23 +26,40 @@ public class SliderAdapter extends PagerAdapter {
 
     // img Array
     public int[] image_slide ={
-            R.drawable.ic_baseline_camera_30,
-            R.drawable.ic_baseline_photo_24,
-            R.drawable.ic_baseline_find_in_page_24
+//            R.drawable.ic_baseline_photo_camera_30,
+//            R.drawable.ic_baseline_photo_library_30,
+//            R.drawable.ic_baseline_image_search_30
+//            R.drawable.ic_baseline_photo_camera_30,
+//            R.drawable.ic_baseline_photo_library_30,
+//            R.drawable.ic_baseline_image_search_30,
+//            R.drawable.ic_baseline_photo_library_30,
+            R.drawable.color,
+            R.drawable.ic_baseline_image_search_30
     };
 
     // heading Array
     public String[] heading_slide ={
-            "CAMERA",
-            "PHOTO",
-            "Find Object"
+//            "CAMERA",
+//            "GALLERY",
+//            "FIND COLOR\nBY CAMERA",
+//            "FIND COLOR\nBY GALLERY",
+//            "FIND OBJECT\nBY CAMERA",
+//            "FIND OBJECT\nBY GALLERY"
+            "FIND COLOR",
+            "FIND OBJECT"
     };
 
     // description Array
     public String[] description_slide ={
-            "Pick color from camera and Realtime find object",
-            "Pick color from photo",
-            "Detect realtime color and find it"
+//            "Pick color from camera\nand Realtime find object",
+//            "Pick color from gallery",
+//            "Detect realtime color and find it"
+//            "Pick color via camera",
+//            "Pick color via gallery",
+//            "Realtime find object\nvia camera",
+//            "Detect color to find object by gallery"
+            "Pick color via camera\nPick color via gallery",
+            "Realtime find object\nvia camera\nDetect color to find object\nvia gallery",
     };
 
 

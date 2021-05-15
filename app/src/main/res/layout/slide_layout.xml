@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:padding="30dp"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textAllCaps="true"
         android:textStyle="bold"
         android:text="text"
@@ -29,7 +29,7 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        app:srcCompat="@drawable/ic_baseline_camera_30" />
+        app:srcCompat="@drawable/color" />
 
 
     <TextView
@@ -41,10 +41,11 @@
         android:gravity="center"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
+        android:layout_marginTop="20dp"
         android:text="Text"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="normal" />
     <View style="@style/Divider"/>
 
