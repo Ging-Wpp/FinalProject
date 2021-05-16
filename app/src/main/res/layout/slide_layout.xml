@@ -43,6 +43,5 @@
         android:paddingRight="30dp"
         android:paddingLeft="30dp"
         android:gravity="center"/>
-    <View style="@style/Divider"/>
 
 </RelativeLayout>

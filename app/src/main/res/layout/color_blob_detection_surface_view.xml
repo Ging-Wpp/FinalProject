@@ -54,7 +54,6 @@
                 android:src="@drawable/ic_baseline_photo_library_30"
                 />
 
-
             <org.opencv.android.JavaCameraView
                 android:layout_width="match_parent"
                 android:layout_height="420dp"

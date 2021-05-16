@@ -253,80 +253,81 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
     // When a motion event happens (someone touches the device)
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
     public boolean onTouch(View v, MotionEvent event) {
-        int cols = mRgba.cols(); //get resolution of display
-        int rows = mRgba.rows(); //get resolution of display
+        try {
+            int cols = mRgba.cols(); //get resolution of display
+            int rows = mRgba.rows(); //get resolution of display
 
-        int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
-        int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
+            int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
+            int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
 
-        int x = (int) event.getX() - xOffset;
-        int y = (int) event.getY() - yOffset;
+            int x = (int) event.getX() - xOffset;
+            int y = (int) event.getY() - yOffset;
 
-        //The place where the screen was touched
-        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
+            //The place where the screen was touched
+            Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
 
-        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
+            if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
 
-        Rect touchedRect = new Rect();
+            Rect touchedRect = new Rect();
 
-        //Ensure it is a multiple of 4
-        touchedRect.x = (x > 4) ? x - 4 : 0;
-        touchedRect.y = (y > 4) ? y - 4 : 0;
+            //Ensure it is a multiple of 4
+            touchedRect.x = (x > 4) ? x - 4 : 0;
+            touchedRect.y = (y > 4) ? y - 4 : 0;
 
-        // If  x+4 < cols then ?"" else :""
-        touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
-        touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
+            // If  x+4 < cols then ?"" else :""
+            touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
+            touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
 
-        //create a touched regionmat from the image created from the touches
-        Mat touchedRegionRgba = mRgba.submat(touchedRect);
+            //create a touched regionmat from the image created from the touches
+            Mat touchedRegionRgba = mRgba.submat(touchedRect);
 
-        //Convert the new mat to HSV colour space
-        Mat touchedRegionHsv = new Mat();
-        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
+            //Convert the new mat to HSV colour space
+            Mat touchedRegionHsv = new Mat();
+            Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
-        Log.d(TAG,touchedRegionRgba.toString());
-        Log.d(TAG,touchedRegionHsv.toString());
+            Log.d(TAG, touchedRegionRgba.toString());
+            Log.d(TAG, touchedRegionHsv.toString());
 
-        // Calculate average color of touched region
-        mBlobColorHsv = Core.sumElems(touchedRegionHsv);
-        int pointCount = touchedRect.width * touchedRect.height;
-        for (int i = 0; i < mBlobColorHsv.val.length; i++)
-            mBlobColorHsv.val[i] /= pointCount;
+            // Calculate average color of touched region
+            mBlobColorHsv = Core.sumElems(touchedRegionHsv);
+            int pointCount = touchedRect.width * touchedRect.height;
+            for (int i = 0; i < mBlobColorHsv.val.length; i++)
+                mBlobColorHsv.val[i] /= pointCount;
 
-        //converts scalar to hsv to RGB
-        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
+            //converts scalar to hsv to RGB
+            mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
 
-        Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
+            Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
 
-        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
-                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
+            Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
+                    ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
-        mDetector.setHsvColor(mBlobColorHsv);
+            mDetector.setHsvColor(mBlobColorHsv);
 
-        // Resize the image to specture size
-        Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
+            // Resize the image to specture size
+            Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
-        mIsColorSelected = true;
-        //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
+            mIsColorSelected = true;
+            //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
 
 
-        // Release all mats
-        touchedRegionRgba.release();
-        touchedRegionHsv.release();
+            // Release all mats
+            touchedRegionRgba.release();
+            touchedRegionHsv.release();
 
-        String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
+            String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
 //        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
 //
-        String colorName = getColorName(hex.substring(1));
-        Log.d(TAG, colorName);
+            String colorName = getColorName(hex.substring(1));
+            Log.d(TAG, colorName);
 
-        rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
-        HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
+            rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
+            HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
 
-        Name.setText(colorName);
+            Name.setText(colorName);
 
-        ColorView = findViewById(R.id.colorView);
-        ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
+            ColorView = findViewById(R.id.colorView);
+            ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
 
 //        final FloatingActionButton fab = findViewById(R.id.add_fab);
 //        TextView rgb = (TextView) findViewById(R.id.resultTv);
@@ -339,28 +340,27 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 //            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
 //        });
 
-        mAddFab.shrink();
+            mAddFab.shrink();
 
-        mAddFab.setOnClickListener(view -> {
-            if (!isAllFabsVisible) {
-                mAddAlarmFab.show();
-                mAddPersonFab.show();
-                addAlarmActionText.setVisibility(View.VISIBLE);
-                addPersonActionText.setVisibility(View.VISIBLE);
-                mAddFab.extend();
-                isAllFabsVisible = true;
-            }
-            else {
-                mAddAlarmFab.hide();
-                mAddPersonFab.hide();
-                addAlarmActionText.setVisibility(View.GONE);
-                addPersonActionText.setVisibility(View.GONE);
-                mAddFab.shrink();
-                isAllFabsVisible = false;
-            }
-        });
+            mAddFab.setOnClickListener(view -> {
+                if (!isAllFabsVisible) {
+                    mAddAlarmFab.show();
+                    mAddPersonFab.show();
+                    addAlarmActionText.setVisibility(View.VISIBLE);
+                    addPersonActionText.setVisibility(View.VISIBLE);
+                    mAddFab.extend();
+                    isAllFabsVisible = true;
+                } else {
+                    mAddAlarmFab.hide();
+                    mAddPersonFab.hide();
+                    addAlarmActionText.setVisibility(View.GONE);
+                    addPersonActionText.setVisibility(View.GONE);
+                    mAddFab.shrink();
+                    isAllFabsVisible = false;
+                }
+            });
 
-        //        final FloatingActionButton fab = findViewById(R.id.add_fab);
+            //        final FloatingActionButton fab = findViewById(R.id.add_fab);
 //        mAddPersonFab.setOnClickListener(v1 -> {
 //            String txtcopy = rgb.getText().toString();
 //            String copy = txtcopy.substring(5);
@@ -369,39 +369,39 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 //            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
 //        });
 
-        ImageView logo = (ImageView)findViewById(R.id.imageView4);
-        logo.setOnClickListener(view -> {
-            Intent intent = new Intent(detectobjbycam.this,MainActivity.class);
-            startActivity(intent);
-        });
-        TextView find = (TextView)findViewById(R.id.textView3);
-        find.setOnClickListener(view -> {
-            Intent intent = new Intent(detectobjbycam.this,MainActivity.class);
-            startActivity(intent);
-        });
+            ImageView logo = (ImageView) findViewById(R.id.imageView4);
+            logo.setOnClickListener(view -> {
+                Intent intent = new Intent(detectobjbycam.this, MainActivity.class);
+                startActivity(intent);
+            });
+            TextView find = (TextView) findViewById(R.id.textView3);
+            find.setOnClickListener(view -> {
+                Intent intent = new Intent(detectobjbycam.this, MainActivity.class);
+                startActivity(intent);
+            });
 
-        TextView rgb = (TextView) findViewById(R.id.resultTv);
-        TextView hexcp = (TextView) findViewById(R.id.hex);
-        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            TextView rgb = (TextView) findViewById(R.id.resultTv);
+            TextView hexcp = (TextView) findViewById(R.id.hex);
+            clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-        mAddPersonFab.setOnClickListener(view ->{
-                    String txtcopy = rgb.getText().toString();
-                    String copy = txtcopy.substring(5);
-                    clipData = ClipData.newPlainText("text", copy);
-                    clipboardManager.setPrimaryClip(clipData);
+            mAddPersonFab.setOnClickListener(view -> {
+                String txtcopy = rgb.getText().toString();
+                String copy = txtcopy.substring(5);
+                clipData = ClipData.newPlainText("text", copy);
+                clipboardManager.setPrimaryClip(clipData);
 //                    Toast.makeText(detectobjbycam.this, copy, Toast.LENGTH_SHORT).show();
-                    MotionToast.Companion.darkColorToast(detectobjbycam.this,"RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                MotionToast.Companion.darkColorToast(detectobjbycam.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
                         ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
-        });
-        mAddAlarmFab.setOnClickListener(view -> {
-                    String txtcopy = hexcp.getText().toString();
-                    String copy2 = txtcopy.substring(5);
-                    clipData = ClipData.newPlainText("text2", copy2);
-                    clipboardManager.setPrimaryClip(clipData);
+            });
+            mAddAlarmFab.setOnClickListener(view -> {
+                String txtcopy = hexcp.getText().toString();
+                String copy2 = txtcopy.substring(5);
+                clipData = ClipData.newPlainText("text2", copy2);
+                clipboardManager.setPrimaryClip(clipData);
 //                    Toast.makeText(detectobjbycam.this, copy2, Toast.LENGTH_SHORT).show();
-                    MotionToast.Companion.darkColorToast(detectobjbycam.this,"Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                MotionToast.Companion.darkColorToast(detectobjbycam.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
                         ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
-        });
+            });
 
 //        final ImageButton copyHex = (ImageButton) findViewById(R.id.copy);
 //        TextView hexcopy = (TextView) findViewById(R.id.hex);
@@ -413,6 +413,11 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 //            clipboardManager.setPrimaryClip(clipData);
 //            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
 //        });
+        }
+        catch (Exception e) {
+            MotionToast.Companion.darkColorToast(detectobjbycam.this, "Please pick color in camera", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
+        }
         return false; // don't need subsequent touch events
     }
 
