@@ -166,9 +166,9 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
-                }
-                else {
-                    Toast.makeText(detectColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+                }else {
+//                    Intent intent = new Intent(detectColor.this,Fcgallery.class);
+//                    startActivity(intent);
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
                     if (intent.resolveActivity(getPackageManager()) != null) {
@@ -189,34 +189,38 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             startActivity(intent);
         });
 
+        if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.CAMERA },0);
+        }
+
 //        mResultTv = findViewById(R.id.resultTv);
     }//end oncreate
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(detectColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(detectColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(detectColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(detectColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//        if (requestCode == CAMERA_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(detectColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                Toast.makeText(detectColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        else if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(detectColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                Toast.makeText(detectColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == 0 && resultCode == FindObj.RESULT_OK) {
+        if (requestCode == 0 && resultCode == detectColor.RESULT_OK) {
             try {
                 Intent intent = new Intent(detectColor.this,detectColor.class);
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -229,8 +233,13 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             }
         }
 
-        if (requestCode == 1 && resultCode == FindObj.RESULT_OK && data!=null) {
+        if (requestCode == 1 && resultCode == detectColor.RESULT_OK ) {
             try {
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+//                }
                 Uri uri = data.getData();
                 Intent intent = new Intent(detectColor.this,Fcgallery.class);
                 intent.putExtra("imageUri", uri.toString());
@@ -339,7 +348,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             touchedRegionRgba.release();
             touchedRegionHsv.release();
 
-            Imgproc.circle(mRgba, new Point(touchedRect.x, touchedRect.y), 50, new Scalar(mBlobColorHsv.val[0], mBlobColorHsv.val[1], mBlobColorHsv.val[2]), 1);
+//            Imgproc.circle(mRgba, new Point(touchedRect.x, touchedRect.y), 50, new Scalar(mBlobColorHsv.val[0], mBlobColorHsv.val[1], mBlobColorHsv.val[2]), 1);
 
             String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
 //        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());

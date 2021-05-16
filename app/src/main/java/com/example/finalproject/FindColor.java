@@ -39,13 +39,13 @@ public class FindColor extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(FindColor.this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(FindColor.this,new String[] { Manifest.permission.CAMERA },0);
                 }
-                else {
-                    Toast.makeText(FindColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    if (intent.resolveActivity(getPackageManager()) != null) {
-//                        startActivityForResult(intent, 0);
-//                    }
-                }
+//                else {
+//                    Toast.makeText(FindColor.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+////                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                    if (intent.resolveActivity(getPackageManager()) != null) {
+////                        startActivityForResult(intent, 0);
+////                    }
+//                }
                 Intent intent1 = new Intent(FindColor.this, detectColor.class);
                 startActivity(intent1);
             }
@@ -71,28 +71,28 @@ public class FindColor extends AppCompatActivity {
 
     }//end onCreate()
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(FindColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(FindColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(FindColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(FindColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
+//    {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//
+//        if (requestCode == CAMERA_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(FindColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                Toast.makeText(FindColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        else if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(FindColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                Toast.makeText(FindColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -206,14 +206,11 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
         gallery.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(detectObjFromGall.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(detectObjFromGall.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            } else {
-                Toast.makeText(detectObjFromGall.this, "Permission already granted", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
-                }
+            }
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
             }
         });
 
@@ -283,23 +280,23 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
     }//end oncreate
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(detectObjFromGall.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(detectObjFromGall.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(detectObjFromGall.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(detectObjFromGall.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == CAMERA_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                Toast.makeText(detectObjFromGall.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
+//            } else {
+////                Toast.makeText(detectObjFromGall.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+//            }
+//        } else if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                Toast.makeText(detectObjFromGall.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
+//            } else {
+////                Toast.makeText(detectObjFromGall.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

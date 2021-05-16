@@ -123,19 +123,19 @@ public class Fogallery extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(Fogallery.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(Fogallery.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
+//    {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//        if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                Toast.makeText(Fogallery.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+////                Toast.makeText(Fogallery.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

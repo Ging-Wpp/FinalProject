@@ -1,6 +1,8 @@
 package com.example.finalproject;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 public class SliderActivity extends AppCompatActivity {
@@ -61,6 +65,12 @@ public class SliderActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         startActivity(new Intent(this, MainActivity.class));
+        if (ContextCompat.checkSelfPermission(SliderActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(SliderActivity.this,new String[] { Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE },0);
+        }
+        else if (ContextCompat.checkSelfPermission(SliderActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(SliderActivity.this,new String[] { Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE },1);
+        }
         finish();
     }
 

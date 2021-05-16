@@ -94,10 +94,10 @@ public class Fcgallery extends AppCompatActivity {
 
         final ImageButton gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
+            Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
+            intent2.setType("image/*");
+            if (intent2.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(Intent.createChooser(intent2, "Select photo from"), 1);
             }
         });
 
@@ -177,13 +177,13 @@ public class Fcgallery extends AppCompatActivity {
 
         ImageView logo = (ImageView)findViewById(R.id.imageView4);
         logo.setOnClickListener(view -> {
-            Intent intent = new Intent(Fcgallery.this,MainActivity.class);
-            startActivity(intent);
+            Intent intent3 = new Intent(Fcgallery.this,MainActivity.class);
+            startActivity(intent3);
         });
         TextView find = (TextView)findViewById(R.id.textView3);
         find.setOnClickListener(view -> {
-            Intent intent = new Intent(Fcgallery.this,MainActivity.class);
-            startActivity(intent);
+            Intent intent4 = new Intent(Fcgallery.this,MainActivity.class);
+            startActivity(intent4);
         });
 
 //        final Button gallery = (Button)findViewById(R.id.again_btn);
@@ -1906,29 +1906,29 @@ public class Fcgallery extends AppCompatActivity {
         }
     };
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-
-//        if (requestCode == CAMERA_PERMISSION_CODE) {
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+//    {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//
+////        if (requestCode == CAMERA_PERMISSION_CODE) {
+////            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                Toast.makeText(Fcgallery.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+////            }
+////            else {
+////                Toast.makeText(Fcgallery.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+////            }
+////        }
+////        else
+//        if (requestCode == STORAGE_PERMISSION_CODE) {
 //            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(Fcgallery.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+////                Toast.makeText(Fcgallery.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
 //            }
 //            else {
-//                Toast.makeText(Fcgallery.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+////                Toast.makeText(Fcgallery.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
 //            }
 //        }
-//        else
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(Fcgallery.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(Fcgallery.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

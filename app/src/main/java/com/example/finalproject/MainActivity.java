@@ -37,21 +37,19 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent1);
 //        });
 
-        fobj.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[] { Manifest.permission.CAMERA },0);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    if (intent.resolveActivity(getPackageManager()) != null) {
-//                        startActivityForResult(intent, 0);
-//                    }
-                }
-                Intent intent1 = new Intent(MainActivity.this, detectobjbycam.class);
-                startActivity(intent1);
+        fobj.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[] { Manifest.permission.CAMERA },0);
             }
+//                else {
+//                    Toast.makeText(MainActivity.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+////                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                    if (intent.resolveActivity(getPackageManager()) != null) {
+////                        startActivityForResult(intent, 0);
+////                    }
+//                }
+            Intent intent1 = new Intent(MainActivity.this, detectobjbycam.class);
+            startActivity(intent1);
         });
 
 //        fcolor.setOnClickListener(v -> {
@@ -59,37 +57,35 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent2);
 //        });
 
-        fcolor.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[] { Manifest.permission.CAMERA },0);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    if (intent.resolveActivity(getPackageManager()) != null) {
-//                        startActivityForResult(intent, 0);
-//                    }
-                }
-                Intent intent1 = new Intent(MainActivity.this, detectColor.class);
-                startActivity(intent1);
+        fcolor.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[] { Manifest.permission.CAMERA },0);
             }
+//                else {
+//                    Toast.makeText(MainActivity.this,"Permission already granted",Toast.LENGTH_SHORT).show();
+////                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                    if (intent.resolveActivity(getPackageManager()) != null) {
+////                        startActivityForResult(intent, 0);
+////                    }
+//                }
+            Intent intent1 = new Intent(MainActivity.this, detectColor.class);
+            startActivity(intent1);
         });
     }//end onCreate()
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(MainActivity.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
-            }
-        }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults)
+//    {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//
+//        if (requestCode == CAMERA_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(MainActivity.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
+//            }
+//            else {
+//                Toast.makeText(MainActivity.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
+//            }
+//        }
 //        else if (requestCode == STORAGE_PERMISSION_CODE) {
 //            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                Toast.makeText(MainActivity.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
@@ -98,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
 //            }
 //        }
-    }//end onRequestPermissionsResult
-
+//    }//end onRequestPermissionsResult
+//
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
