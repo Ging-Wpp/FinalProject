@@ -6,10 +6,7 @@
     <string name="fcolor">Find Color</string>
     <string name="button">Button</string>
     <string name="copy">C</string>
-
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="start">Start</string>
-    <!--    <string name="pick_color_from_cameara">Pick color from cameara</string>-->
-    <!--    <string name="cameraDesc">CAMERA</string>-->
 </resources>

@@ -34,19 +34,13 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".detectObjFromGall" />
-        <activity android:name=".detectobjbycam" />
-        <activity android:name=".OKColor" />
+        <activity android:name=".DetectObjFromGall" />
+        <activity android:name=".DetectObjByCam" />
         <activity android:name=".Fogallery" />
-        <activity android:name=".Focamera" />
         <activity android:name=".Fcgallery" />
-        <activity android:name=".Fccamera" />
         <activity android:name=".FindColor" />
-        <activity android:name=".FindObj" />
-        <activity android:name=".FindColorFromCamera" />
-        <activity android:name=".detectColor" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SliderActivity" />
+        <activity android:name=".InfoActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

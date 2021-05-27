@@ -2,7 +2,6 @@ package com.example.finalproject;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
@@ -19,25 +18,19 @@ import org.opencv.core.Size;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
-
 import android.Manifest;
-
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -46,50 +39,30 @@ import android.view.SurfaceView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import www.sanju.motiontoast.MotionToast;
 
-public class detectobjbycam extends AppCompatActivity implements OnTouchListener, CvCameraViewListener2 {
-    private static final String TAG = "detectobjbycam";
+public class DetectObjByCam extends AppCompatActivity implements OnTouchListener, CvCameraViewListener2 {
+    private static final String TAG = "DetectObjBycam";
 
     private boolean mIsColorSelected = false;
-    private Mat mRgba;
-    private Scalar mBlobColorRgba;
-    private Scalar mBlobColorHsv;
+    private Mat mRgba, mSpectrum;
+    private Scalar mBlobColorRgba, mBlobColorHsv;
     private ColorBlobDetector mDetector;
-    private Mat mSpectrum;
     private Size SPECTRUM_SIZE;
-
-    private TextView rgb;
-    private TextView HexCode;
-    private TextView Name;
-
-    View ColorView;
-    Bitmap bitmap;
+    private TextView rgb, HexCode, Name;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
     private CameraBridgeViewBase mOpenCvCameraView;
-
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private static final int STORAGE_PERMISSION_CODE = 200;
-
-    FloatingActionButton mAddAlarmFab, mAddPersonFab;
-    ExtendedFloatingActionButton mAddFab;
-    TextView addAlarmActionText, addPersonActionText;
-    Boolean isAllFabsVisible;
-
-    String colorName;
+    private FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    private ExtendedFloatingActionButton mAddFab;
+    private TextView addAlarmActionText, addPersonActionText;
+    private Boolean isAllFabsVisible;
 
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -97,20 +70,17 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             if (status == LoaderCallbackInterface.SUCCESS) {
                 Log.i(TAG, "OpenCV loaded successfully");
                 mOpenCvCameraView.enableView();
-                mOpenCvCameraView.setOnTouchListener(detectobjbycam.this);
+                mOpenCvCameraView.setOnTouchListener(DetectObjByCam.this);
             } else {
                 super.onManagerConnected(status);
             }
         }
     };
 
-    public detectobjbycam() {
+    public DetectObjByCam() {
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
-    /**
-     * Called when the activity is first created.
-     */
     @SuppressLint("QueryPermissionsNeeded")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,13 +115,13 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         isAllFabsVisible = false;
 
         camera.setOnClickListener(v -> {
-            Intent intent1 = new Intent(detectobjbycam.this, detectobjbycam.class);
+            Intent intent1 = new Intent(DetectObjByCam.this, DetectObjByCam.class);
             startActivity(intent1);
         });
 
         gallery.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(detectobjbycam.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(detectobjbycam.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            if (ContextCompat.checkSelfPermission(DetectObjByCam.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(DetectObjByCam.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
@@ -160,58 +130,47 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             }
         });
 
-        if (ContextCompat.checkSelfPermission(detectobjbycam.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(detectobjbycam.this,new String[] { Manifest.permission.CAMERA },0);
+        if (ContextCompat.checkSelfPermission(DetectObjByCam.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(DetectObjByCam.this,new String[] { Manifest.permission.CAMERA },0);
         }
 
-
-    }//end oncreate
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == CAMERA_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(detectobjbycam.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(detectobjbycam.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
-//            }
-//        } else if (requestCode == STORAGE_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(detectobjbycam.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(detectobjbycam.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+        ImageView logo = findViewById(R.id.imageView4);
+        logo.setOnClickListener(view -> {
+            Intent intent = new Intent(DetectObjByCam.this, MainActivity.class);
+            startActivity(intent);
+        });
+        TextView find = findViewById(R.id.textView3);
+        find.setOnClickListener(view -> {
+            Intent intent = new Intent(DetectObjByCam.this, MainActivity.class);
+            startActivity(intent);
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == FindObj.RESULT_OK) {
+        if (requestCode == 0 && resultCode == DetectObjByCam.RESULT_OK) {
             try {
-                Intent intent = new Intent(detectobjbycam.this, detectColor.class);
+                Intent intent = new Intent(DetectObjByCam.this, FindColor.class);
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 intent.putExtra("data", photo);
                 startActivity(intent);
-//                Intent intent1 = new Intent(FindObj.this, detectColor.class);
-//                startActivity(intent1);
             } catch (Exception e) {
                 Log.e("Log", "Error from Camera Activity");
             }
         }
 
-        if (requestCode == 1 && resultCode == FindObj.RESULT_OK && data != null) {
+        if (requestCode == 1 && resultCode == DetectObjByCam.RESULT_OK && data != null) {
             try {
                 Uri uri = data.getData();
-                Intent intent = new Intent(detectobjbycam.this, Fogallery.class);
+                Intent intent = new Intent(DetectObjByCam.this, Fogallery.class);
                 intent.putExtra("imageUri", uri.toString());
                 startActivity(intent);
             } catch (Exception e) {
                 Log.e("Log", "Error from Gallery Activity");
             }
         }
-    }//end onActivityResult
+    }
 
     @Override
     public void onPause() {
@@ -245,59 +204,49 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         mBlobColorRgba = new Scalar(255);
         mBlobColorHsv = new Scalar(255);
         SPECTRUM_SIZE = new Size(200, 64);
-        //Scalar กำหนดเป็นพื้นที่สีอื่น
-        Scalar CONTOUR_COLOR = new Scalar(255, 0, 0, 255);
     }
 
     public void onCameraViewStopped() {
         mRgba.release();
     }
 
-    // When a motion event happens (someone touches the device)
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
     public boolean onTouch(View v, MotionEvent event) {
         try {
-            int cols = mRgba.cols(); //get resolution of display
-            int rows = mRgba.rows(); //get resolution of display
+            int cols = mRgba.cols();
+            int rows = mRgba.rows();
 
-            int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
-            int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
+            int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2;
+            int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2;
 
             int x = (int) event.getX() - xOffset;
             int y = (int) event.getY() - yOffset;
 
-            //The place where the screen was touched
             Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
 
             if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
 
             Rect touchedRect = new Rect();
 
-            //Ensure it is a multiple of 4
             touchedRect.x = (x > 4) ? x - 4 : 0;
             touchedRect.y = (y > 4) ? y - 4 : 0;
 
-            // If  x+4 < cols then ?"" else :""
             touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
             touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
 
-            //create a touched regionmat from the image created from the touches
             Mat touchedRegionRgba = mRgba.submat(touchedRect);
 
-            //Convert the new mat to HSV colour space
             Mat touchedRegionHsv = new Mat();
             Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
             Log.d(TAG, touchedRegionRgba.toString());
             Log.d(TAG, touchedRegionHsv.toString());
 
-            // Calculate average color of touched region
             mBlobColorHsv = Core.sumElems(touchedRegionHsv);
             int pointCount = touchedRect.width * touchedRect.height;
             for (int i = 0; i < mBlobColorHsv.val.length; i++)
                 mBlobColorHsv.val[i] /= pointCount;
 
-            //converts scalar to hsv to RGB
             mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
 
             Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
@@ -307,45 +256,26 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 
             mDetector.setHsvColor(mBlobColorHsv);
 
-            // Resize the image to specture size
             Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
             mIsColorSelected = true;
-            //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
 
-
-            // Release all mats
             touchedRegionRgba.release();
             touchedRegionHsv.release();
 
             String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
-//        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
-//
-            colorName = getColorName(hex.substring(1));
+            String colorName = getColorName(hex.substring(1));
             Log.d(TAG, colorName);
 
             rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
             HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
 
             Name.setText(colorName);
-            //Imgproc.putText(mRgba, colorName, new Point(touchedRect.x, touchedRect.y), 0/*font*/, 1, new Scalar(255, 0, 0, 255), 3);
 
-            ColorView = findViewById(R.id.colorView);
-            ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
-
-//        final FloatingActionButton fab = findViewById(R.id.add_fab);
-//        TextView rgb = (TextView) findViewById(R.id.resultTv);
-//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        fab.setOnClickListener(v1 -> {
-//            String txtcopy = rgb.getText().toString();
-//            String copy = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
-//        });
+            View colorView = findViewById(R.id.colorView);
+            colorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
 
             mAddFab.shrink();
-
             mAddFab.setOnClickListener(view -> {
                 if (!isAllFabsVisible) {
                     mAddAlarmFab.show();
@@ -364,28 +294,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
                 }
             });
 
-            //        final FloatingActionButton fab = findViewById(R.id.add_fab);
-//        mAddPersonFab.setOnClickListener(v1 -> {
-//            String txtcopy = rgb.getText().toString();
-//            String copy = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
-//        });
-
-            ImageView logo = (ImageView) findViewById(R.id.imageView4);
-            logo.setOnClickListener(view -> {
-                Intent intent = new Intent(detectobjbycam.this, MainActivity.class);
-                startActivity(intent);
-            });
-            TextView find = (TextView) findViewById(R.id.textView3);
-            find.setOnClickListener(view -> {
-                Intent intent = new Intent(detectobjbycam.this, MainActivity.class);
-                startActivity(intent);
-            });
-
-            TextView rgb = (TextView) findViewById(R.id.resultTv);
-            TextView hexcp = (TextView) findViewById(R.id.hex);
+            TextView rgb = findViewById(R.id.resultTv);
+            TextView hexcp = findViewById(R.id.hex);
             clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
             mAddPersonFab.setOnClickListener(view -> {
@@ -393,77 +303,44 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
                 String copy = txtcopy.substring(5);
                 clipData = ClipData.newPlainText("text", copy);
                 clipboardManager.setPrimaryClip(clipData);
-//                    Toast.makeText(detectobjbycam.this, copy, Toast.LENGTH_SHORT).show();
-                MotionToast.Companion.darkColorToast(detectobjbycam.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
+                MotionToast.Companion.darkColorToast(DetectObjByCam.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
             });
             mAddAlarmFab.setOnClickListener(view -> {
                 String txtcopy = hexcp.getText().toString();
                 String copy2 = txtcopy.substring(5);
                 clipData = ClipData.newPlainText("text2", copy2);
                 clipboardManager.setPrimaryClip(clipData);
-//                    Toast.makeText(detectobjbycam.this, copy2, Toast.LENGTH_SHORT).show();
-                MotionToast.Companion.darkColorToast(detectobjbycam.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
+                MotionToast.Companion.darkColorToast(DetectObjByCam.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
             });
-
-//        final ImageButton copyHex = (ImageButton) findViewById(R.id.copy);
-//        TextView hexcopy = (TextView) findViewById(R.id.hex);
-//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        copyHex.setOnClickListener(v1 -> {
-//            String copyhex = hexcopy.getText().toString();
-//            String copy = copyhex.substring(10);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
-//        });
         }
         catch (Exception e) {
-            MotionToast.Companion.darkColorToast(detectobjbycam.this, "Please pick color in camera", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(detectobjbycam.this, R.font.helvetica_regular));
+            MotionToast.Companion.darkColorToast(DetectObjByCam.this, "Please pick color in camera", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
         }
-        return false; // don't need subsequent touch events
+        return false;
     }
 
-    public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         mRgba = inputFrame.rgba();
-        if (mIsColorSelected) { //if selected new color then re process again
+        if (mIsColorSelected) {
             mDetector.process(mRgba);
             List<MatOfPoint> contours = mDetector.getContours();
             Log.e(TAG, "Contours count: " + contours.size());
             MatOfPoint2f approxCurve = new MatOfPoint2f();
-            //For each contour found
             for (int i = 0; i < contours.size(); i++) {
-
-//                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
-//                Mat colorLabel = mRgba.submat(20, 68, 20, 278);
-//                colorLabel.setTo(mBlobColorRgba);
-//                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-//                mSpectrum.copyTo(spectrumLabel);
-
-                //Convert contours(i) from MatOfPoint to MatOfPoint2f
                 MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
-                //Processing on mMOP2f1 which is in type MatOfPoint2f
                 double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
                 Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-
-                //Convert back to MatOfPoint
                 MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-
-                // Get bounding rect of contour
                 Rect rect = Imgproc.boundingRect(points);
-
-                // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
-//                Core.rectangle(contoursFrame, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), (255, 0, 0, 255), 3);
                 Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0),3);
-                //Imgproc.putText(mRgba, "color name",new Point(rect.x, rect.y),0/*font*/, (0,0,0,255), 2);
-                //Imgproc.putText(mRgba, colorName, new Point(rect.x, rect.y), 0/*font*/, 1, new Scalar(255, 0, 0, 255), 3);
             }
         }
         return mRgba;
     }
 
-    //final conversion
     private Scalar converScalarHsv2Rgba(Scalar hsvColor) {
         Mat pointMatRgba = new Mat();
         Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, hsvColor);
@@ -491,11 +368,6 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         int g = Integer.parseInt(code.substring(2, 4), 16);
         int b = Integer.parseInt(code.substring(4, 6), 16);
         return new int[]{r, g, b};
-    }
-
-    public String getHexCode(int r, int g, int b){
-        String hex = String.format("#%02x%02x%02x", r, g, b);
-        return hex;
     }
 
     private static double calculateDistance(int[] rgb1, int[] rgb2) {

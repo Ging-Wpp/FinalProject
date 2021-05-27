@@ -7,63 +7,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class SliderAdapter extends PagerAdapter {
-
     private final Context context;
 
-//    private TextView slideHeading, slideDescription;
-//    private ImageView slide_imageView;
-
-
     public SliderAdapter(Context context) {
-
         this.context = context;
     }
 
-    // img Array
     public int[] image_slide ={
-//            R.drawable.ic_baseline_photo_camera_30,
-//            R.drawable.ic_baseline_photo_library_30,
-//            R.drawable.ic_baseline_image_search_30
-//            R.drawable.ic_baseline_photo_camera_30,
-//            R.drawable.ic_baseline_photo_library_30,
-//            R.drawable.ic_baseline_image_search_30,
-//            R.drawable.ic_baseline_photo_library_30,
             R.drawable.color,
             R.drawable.ic_baseline_image_search_30
     };
 
-    // heading Array
     public String[] heading_slide ={
-//            "CAMERA",
-//            "GALLERY",
-//            "FIND COLOR\nBY CAMERA",
-//            "FIND COLOR\nBY GALLERY",
-//            "FIND OBJECT\nBY CAMERA",
-//            "FIND OBJECT\nBY GALLERY"
             "FIND COLOR",
             "FIND OBJECT"
     };
 
-    // description Array
     public String[] description_slide ={
-//            "Pick color from camera\nand Realtime find object",
-//            "Pick color from gallery",
-//            "Detect realtime color and find it"
-//            "Pick color via camera",
-//            "Pick color via gallery",
-//            "Realtime find object\nvia camera",
-//            "Detect color to find object by gallery"
             "Pick color via camera\nPick color via gallery",
             "Realtime find object\nvia camera\nDetect color to find object\nvia gallery",
     };
-
-
-
 
     @Override
     public int getCount() {
@@ -93,19 +60,10 @@ public class SliderAdapter extends PagerAdapter {
         return view;
     }
 
-
-
     @Override
     public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
         container.removeView((RelativeLayout)object);
     }
-
-//    @Override
-//    public void destroyItem(ViewGroup container, int position, Object object) {
-//        View view = (View) object;
-//        container.removeView(view);
-//    }
-
 }
 
 

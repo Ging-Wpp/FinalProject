@@ -1,74 +1,52 @@
 package com.example.finalproject;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-
 import www.sanju.motiontoast.MotionToast;
 
-
 public class Fcgallery extends AppCompatActivity {
-    private static final String TAG = "Fcgellery";
 
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private static final int STORAGE_PERMISSION_CODE = 200;
-    ImageView ImageView;
-    TextView ResultTv;
-    TextView HexName;
-    TextView Name;
-    View ColorView;
-    Bitmap bitmap;
+    private static final String TAG = "Fcgellery";
+    private ImageView ImageView;
+    private TextView ResultTv, HexName, Name;
+    private View ColorView;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
+    private FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    private ExtendedFloatingActionButton mAddFab;
+    private TextView addAlarmActionText, addPersonActionText;
+    private Boolean isAllFabsVisible;
 
-    FloatingActionButton mAddAlarmFab, mAddPersonFab;
-    ExtendedFloatingActionButton mAddFab;
-    TextView addAlarmActionText, addPersonActionText;
-    Boolean isAllFabsVisible;
-
-    @SuppressLint("ClickableViewAccessibility")
-    @RequiresApi(api = Build.VERSION_CODES.O) /*Long Color can only be used for android version O or higher */
-
-//    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale", "QueryPermissionsNeeded"})
+    @SuppressLint({"ClickableViewAccessibility", "CutPasteId", "QueryPermissionsNeeded"})
+    @RequiresApi(api = Build.VERSION_CODES.O)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fcgallery);
 
-        ImageView = (ImageView) findViewById(R.id.imageView);
+        ImageView = findViewById(R.id.imageView);
         ResultTv = findViewById(R.id.resultTv);
         ColorView = findViewById(R.id.colorView);
         HexName = findViewById(R.id.hex);
@@ -88,7 +66,7 @@ public class Fcgallery extends AppCompatActivity {
 
         final ImageButton camera = findViewById(R.id.camera);
         camera.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Fcgallery.this, detectColor.class);
+            Intent intent1 = new Intent(Fcgallery.this, FindColor.class);
             startActivity(intent1);
         });
 
@@ -103,121 +81,20 @@ public class Fcgallery extends AppCompatActivity {
 
         ImageView.setOnTouchListener(imgSourceOnTouchListener);
 
-
-//        ImageView.setOnTouchListener((v, event) -> {
-//            if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE ){
-//                bitmap = ImageView.getDrawingCache();
-//
-//                int pixel = bitmap.getPixel((int)event.getX(), (int)event.getY());
-//
-//                //getting RGB values
-//                int r = Color.red(pixel);
-//                int g = Color.green(pixel);
-//                int b = Color.blue(pixel);
-//
-//                //getting HEX values
-//                ArrayList<String> hexArr = new ArrayList<>();
-//                String hex = Integer.toHexString(pixel);
-//                String hex2 = "#" + hex.substring(2);
-//                hexArr.add(hex2);
-//
-//                //set RGB, HEX values to textView
-//                String[] colorNames = getResources().getStringArray(R.array.colorNames);
-//                String[] colorCodes = getResources().getStringArray(R.array.codecolors);
-//                ResultTv.setText(String.format("RGB: %d, %d, %d", r, g, b));
-//                HexName.setText("\nHEX: " + hex2.toUpperCase());
-//
-////                    StringBuffer sb = new StringBuffer();
-////                    for(int i = 0; i < colorCodes.length; i++) {
-////                        sb.append(colorCodes[i]);
-////                    }
-////                    String str = sb.toString();
-////
-////                    ArrayList<String> list = new ArrayList<>(Arrays.asList(str.split("#")));
-//
-////                    ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
-//
-//
-//
-////                for (String s : colorCodes)
-////                {
-//////                        ResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2);
-////                    for(int i=0;i<colorCodes.length;i++) {
-////                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
-////                            ResultTv.setText("RGB: " + r + ", " + g + ", " + b);
-////                            HexName.setText("\nHEX: " + hex2);
-////                            Name.setText("\nColor name: " + colorNames[i]);
-////                        }else{
-////                            i++;
-////                        }
-////                        i++;
-////                    }
-////                }
-//
-////                    for(int i=0;i<colorCodes.length;i++) {
-////                        if(hexArr.get(0).equalsIgnoreCase(colorCodes[i])) {
-////                            mResultTv.setText("RGB: " + r + ", " + g + ", " + b + "\nHEX: " + hex2 +
-////                                    "\ncolor name: " + colorNames[i]);
-////                        }
-////                        i++;
-////                    }
-//
-//                //set background of view according to the picked color
-//                ColorView.setBackgroundColor(Color.rgb(r,g,b));
-//
-//            }
-//            return true;
-//        });
-
-//        ImageView.getLayoutParams().height = 800;
-//        ImageView.getLayoutParams().width = 600;
         Bundle extras = getIntent().getExtras();
         Uri myUri = Uri.parse(extras.getString("imageUri"));
         ImageView.setImageURI(myUri);
 
-        ImageView logo = (ImageView)findViewById(R.id.imageView4);
+        ImageView logo = findViewById(R.id.imageView4);
         logo.setOnClickListener(view -> {
             Intent intent3 = new Intent(Fcgallery.this,MainActivity.class);
             startActivity(intent3);
         });
-        TextView find = (TextView)findViewById(R.id.textView3);
+        TextView find = findViewById(R.id.textView3);
         find.setOnClickListener(view -> {
             Intent intent4 = new Intent(Fcgallery.this,MainActivity.class);
             startActivity(intent4);
         });
-
-//        final Button gallery = (Button)findViewById(R.id.again_btn);
-//
-//        gallery.setOnClickListener(v -> {
-//            if (ContextCompat.checkSelfPermission(Fcgallery.this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-//                ActivityCompat.requestPermissions(Fcgallery.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
-//            }
-//            else {
-//                Toast.makeText(Fcgallery.this,"Permission already granted",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
-//                }
-//            }
-//        });
-
-//        final Button ok = (Button)findViewById(R.id.forward_btn);
-//        ok.setOnClickListener(v -> {
-//            Intent intent1 = new Intent(Fcgallery.this, MainActivity.class);
-//            startActivity(intent1);
-//        });
-
-//        final ImageButton copyText = (ImageButton) findViewById(R.id.copy);
-//        @SuppressLint("CutPasteId") TextView hexcode = (TextView)findViewById(R.id.hex);
-//        clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-//        copyText.setOnClickListener(v -> {
-//            String txtcopy = hexcode.getText().toString();
-//            String copy = txtcopy.substring(6);
-//            clipData = ClipData.newPlainText("text",copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(),copy, Toast.LENGTH_SHORT).show();
-//        });
 
         mAddFab.shrink();
 
@@ -240,8 +117,8 @@ public class Fcgallery extends AppCompatActivity {
             }
         });
 
-        TextView rgb = (TextView) findViewById(R.id.resultTv);
-        TextView hexcp = (TextView) findViewById(R.id.hex);
+        TextView rgb = findViewById(R.id.resultTv);
+        TextView hexcp = findViewById(R.id.hex);
         clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
         mAddPersonFab.setOnClickListener(view ->{
@@ -300,12 +177,13 @@ public class Fcgallery extends AppCompatActivity {
     }
 
     View.OnTouchListener imgSourceOnTouchListener = new View.OnTouchListener(){
+        @SuppressLint({"ClickableViewAccessibility", "DefaultLocale"})
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             try {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
 
-                    bitmap = getBitmapFromView(ImageView);
+                    Bitmap bitmap = getBitmapFromView(ImageView);
                     int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
                     String hexCode = Integer.toHexString(pixel);
 
@@ -1892,9 +1770,8 @@ public class Fcgallery extends AppCompatActivity {
                         name = nearestColor(hex, color_name);
                     }
                     ColorView.setBackgroundColor(Color.rgb(redValue, greenValue, blueValue));
-//                ResultTv.setText(String.format("Hex code: #%s\nRGB: (%d, %d, %d)\nColor Name: %s", hex.toUpperCase(), redValue, greenValue, blueValue, name));
                     ResultTv.setText(String.format("RGB: %d, %d, %d", redValue, greenValue, blueValue));
-                    HexName.setText("\nHEX: #" + hex.toUpperCase());
+                    HexName.setText(String.format("\nHEX: #%s", hex.toUpperCase()));
                     Name.setText(name);
                 }
             }
@@ -1909,18 +1786,6 @@ public class Fcgallery extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
-
-//        if (requestCode == 0 && resultCode == FindObj.RESULT_OK) {
-//            try {
-//                Intent intent = new Intent(Fcgallery.this,Fccamera.class);
-//                Bitmap photo = (Bitmap) data.getExtras().get("data");
-//                intent.putExtra("data", photo);
-//                startActivity(intent);
-//            } catch (Exception e) {
-//                Log.e("Log", "Error from Camera Activity");
-//            }
-//        }
-
         if (requestCode == 1 && resultCode == Fcgallery.RESULT_OK && data!=null) {
             try {
                 Uri uri = data.getData();
@@ -1931,5 +1796,5 @@ public class Fcgallery extends AppCompatActivity {
                 Log.e("Log", "Error from Gallery Activity");
             }
         }
-    }//end onActivityResult
+    }
 }

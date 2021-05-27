@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -15,7 +13,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fpage);
 
         new Handler(Looper.myLooper()).postDelayed(() -> {
-            Intent intent = new Intent(SplashScreenActivity.this, SliderActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, InfoActivity.class);
             startActivity(intent);
             finish();
         }, 3000);
