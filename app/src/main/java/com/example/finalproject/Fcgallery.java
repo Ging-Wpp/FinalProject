@@ -121,21 +121,34 @@ public class Fcgallery extends AppCompatActivity {
         TextView hexcp = findViewById(R.id.hex);
         clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-        mAddPersonFab.setOnClickListener(view ->{
-            String txtcopy = rgb.getText().toString();
-            String copy = txtcopy.substring(5);
-            clipData = ClipData.newPlainText("text", copy);
-            clipboardManager.setPrimaryClip(clipData);
-            MotionToast.Companion.darkColorToast(Fcgallery.this,"RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+        mAddPersonFab.setOnClickListener(view -> {
+            try {
+                String txtcopy = rgb.getText().toString();
+                String copy = txtcopy.substring(5);
+                clipData = ClipData.newPlainText("text", copy);
+                clipboardManager.setPrimaryClip(clipData);
+                MotionToast.Companion.darkColorToast(Fcgallery.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+            }
+            catch(Exception e){
+                MotionToast.Companion.darkColorToast(Fcgallery.this,"Please pick color", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+            }
         });
+
         mAddAlarmFab.setOnClickListener(view -> {
-            String txtcopy = hexcp.getText().toString();
-            String copy2 = txtcopy.substring(5);
-            clipData = ClipData.newPlainText("text2", copy2);
-            clipboardManager.setPrimaryClip(clipData);
-            MotionToast.Companion.darkColorToast(Fcgallery.this,"Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+            try {
+                String txtcopy = hexcp.getText().toString();
+                String copy2 = txtcopy.substring(5);
+                clipData = ClipData.newPlainText("text2", copy2);
+                clipboardManager.setPrimaryClip(clipData);
+                MotionToast.Companion.darkColorToast(Fcgallery.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+            }
+            catch(Exception e){
+                MotionToast.Companion.darkColorToast(Fcgallery.this,"Please pick color", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fcgallery.this, R.font.helvetica_regular));
+            }
         });
     }
 

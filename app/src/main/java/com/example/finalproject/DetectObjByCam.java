@@ -299,20 +299,33 @@ public class DetectObjByCam extends AppCompatActivity implements OnTouchListener
             clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
             mAddPersonFab.setOnClickListener(view -> {
-                String txtcopy = rgb.getText().toString();
-                String copy = txtcopy.substring(5);
-                clipData = ClipData.newPlainText("text", copy);
-                clipboardManager.setPrimaryClip(clipData);
-                MotionToast.Companion.darkColorToast(DetectObjByCam.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                try {
+                    String txtcopy = rgb.getText().toString();
+                    String copy = txtcopy.substring(5);
+                    clipData = ClipData.newPlainText("text", copy);
+                    clipboardManager.setPrimaryClip(clipData);
+                    MotionToast.Companion.darkColorToast(DetectObjByCam.this, "RGB: " + copy, MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                }
+                catch(Exception e){
+                    MotionToast.Companion.darkColorToast(DetectObjByCam.this,"Please pick color", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                }
             });
+
             mAddAlarmFab.setOnClickListener(view -> {
-                String txtcopy = hexcp.getText().toString();
-                String copy2 = txtcopy.substring(5);
-                clipData = ClipData.newPlainText("text2", copy2);
-                clipboardManager.setPrimaryClip(clipData);
-                MotionToast.Companion.darkColorToast(DetectObjByCam.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                try {
+                    String txtcopy = hexcp.getText().toString();
+                    String copy2 = txtcopy.substring(5);
+                    clipData = ClipData.newPlainText("text2", copy2);
+                    clipboardManager.setPrimaryClip(clipData);
+                    MotionToast.Companion.darkColorToast(DetectObjByCam.this, "Hex: " + copy2.toUpperCase(), MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                }
+                catch(Exception e){
+                    MotionToast.Companion.darkColorToast(DetectObjByCam.this,"Please pick color", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(DetectObjByCam.this, R.font.helvetica_regular));
+                }
             });
         }
         catch (Exception e) {

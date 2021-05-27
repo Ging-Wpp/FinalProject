@@ -82,24 +82,30 @@ public class Fogallery extends AppCompatActivity {
         @SuppressLint("CutPasteId") TextView name = findViewById(R.id.name);
         clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
         copyText.setOnClickListener(v -> {
-            String rgbtxt = rgb.getText().toString();
-            String copyrgb = rgbtxt.substring(5);
-            String hextxt = hexcode.getText().toString();
-            String copyhex = hextxt.substring(6);
-            String copyname = name.getText().toString();
-            clipData = ClipData.newPlainText("text",copyrgb);
-            clipboardManager.setPrimaryClip(clipData);
-            clipData2 = ClipData.newPlainText("text2",copyhex);
-            clipboardManager.setPrimaryClip(clipData2);
-            clipData3 = ClipData.newPlainText("text3",copyname);
-            clipboardManager.setPrimaryClip(clipData3);
-            MotionToast.Companion.darkColorToast(Fogallery.this,"Ready to find object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
-            Intent intent = new Intent(Fogallery.this, DetectObjFromGall.class);
-            intent.putExtra("text",copyrgb);
-            intent.putExtra("text2",copyhex);
-            intent.putExtra("text3",copyname);
-            startActivity(intent);
+            try {
+                String rgbtxt = rgb.getText().toString();
+                String copyrgb = rgbtxt.substring(5);
+                String hextxt = hexcode.getText().toString();
+                String copyhex = hextxt.substring(6);
+                String copyname = name.getText().toString();
+                clipData = ClipData.newPlainText("text", copyrgb);
+                clipboardManager.setPrimaryClip(clipData);
+                clipData2 = ClipData.newPlainText("text2", copyhex);
+                clipboardManager.setPrimaryClip(clipData2);
+                clipData3 = ClipData.newPlainText("text3", copyname);
+                clipboardManager.setPrimaryClip(clipData3);
+                MotionToast.Companion.darkColorToast(Fogallery.this, "Ready to find object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
+                Intent intent = new Intent(Fogallery.this, DetectObjFromGall.class);
+                intent.putExtra("text", copyrgb);
+                intent.putExtra("text2", copyhex);
+                intent.putExtra("text3", copyname);
+                startActivity(intent);
+            }
+            catch(Exception e){
+                MotionToast.Companion.darkColorToast(Fogallery.this,"Please pick color", MotionToast.TOAST_WARNING, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
+            }
         });
     }
 
