@@ -89,6 +89,8 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
     TextView addAlarmActionText, addPersonActionText;
     Boolean isAllFabsVisible;
 
+    String colorName;
+
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -319,13 +321,14 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
             String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
 //        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
 //
-            String colorName = getColorName(hex.substring(1));
+            colorName = getColorName(hex.substring(1));
             Log.d(TAG, colorName);
 
             rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
             HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
 
             Name.setText(colorName);
+            //Imgproc.putText(mRgba, colorName, new Point(touchedRect.x, touchedRect.y), 0/*font*/, 1, new Scalar(255, 0, 0, 255), 3);
 
             ColorView = findViewById(R.id.colorView);
             ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
@@ -452,7 +455,9 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
 
                 // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
 //                Core.rectangle(contoursFrame, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), (255, 0, 0, 255), 3);
-                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0),3);
+                //Imgproc.putText(mRgba, "color name",new Point(rect.x, rect.y),0/*font*/, (0,0,0,255), 2);
+                //Imgproc.putText(mRgba, colorName, new Point(rect.x, rect.y), 0/*font*/, 1, new Scalar(255, 0, 0, 255), 3);
             }
         }
         return mRgba;
@@ -486,6 +491,11 @@ public class detectobjbycam extends AppCompatActivity implements OnTouchListener
         int g = Integer.parseInt(code.substring(2, 4), 16);
         int b = Integer.parseInt(code.substring(4, 6), 16);
         return new int[]{r, g, b};
+    }
+
+    public String getHexCode(int r, int g, int b){
+        String hex = String.format("#%02x%02x%02x", r, g, b);
+        return hex;
     }
 
     private static double calculateDistance(int[] rgb1, int[] rgb2) {

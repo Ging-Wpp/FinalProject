@@ -64,32 +64,22 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 
     private boolean mIsColorSelected = false;
     private Mat mRgba;
-    private Scalar mBlobColorRgba;
-    private Scalar mBlobColorHsv;
+    private Scalar mBlobColorRgba,mBlobColorHsv;
     private ColorBlobDetector mDetector;
     private Mat mSpectrum;
     private Size SPECTRUM_SIZE;
     private Scalar CONTOUR_COLOR; //Scalar กำหนดเป็นพื้นที่สีอื่น
-
-    private TextView mResultTv;
-    private TextView rgb;
-    private TextView HexCode;
-    private TextView Name;
-    private Button colorBtn;
-    Bitmap bitmap;
-    View ColorView;
+    private TextView rgb, HexCode, Name;
+    private View ColorView;
     private ClipData clipData;
     private ClipboardManager clipboardManager;
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private static final int STORAGE_PERMISSION_CODE = 200;
-
-    FloatingActionButton mAddAlarmFab, mAddPersonFab;
-    ExtendedFloatingActionButton mAddFab;
-    TextView addAlarmActionText, addPersonActionText;
-    Boolean isAllFabsVisible;
+    private FloatingActionButton mAddAlarmFab, mAddPersonFab;
+    private ExtendedFloatingActionButton mAddFab;
+    private TextView addAlarmActionText, addPersonActionText;
+    private Boolean isAllFabsVisible;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -100,7 +90,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                     mOpenCvCameraView.enableView();
                     mOpenCvCameraView.setOnTouchListener(detectColor.this);
                 }
-
                 break;
                 default: {
                     super.onManagerConnected(status);
@@ -113,7 +102,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
     public detectColor() {
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
-
     /**
      * Called when the activity is first created.
      */
@@ -129,9 +117,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         mOpenCvCameraView = findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
-
-//        mOpenCvCameraView.setDrawingCacheEnabled(true);
-//        mOpenCvCameraView.buildDrawingCache(true);
 
         rgb = findViewById(R.id.resultTv);
         HexCode = findViewById(R.id.hex);
@@ -157,23 +142,15 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             startActivity(intent1);
         });
 
-//        gallery.setOnClickListener(v -> {
-//            Intent intent2 = new Intent(detectobjbycam.this, Fogallery.class);
-//            startActivity(intent2);
-//        });
-
-        gallery.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
-                }else {
-//                    Intent intent = new Intent(detectColor.this,Fcgallery.class);
-//                    startActivity(intent);
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
-                    }
+        gallery.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },1);
+            }
+            else {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
                 }
             }
         });
@@ -192,30 +169,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
         if (ContextCompat.checkSelfPermission(detectColor.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(detectColor.this,new String[] { Manifest.permission.CAMERA },0);
         }
-
-//        mResultTv = findViewById(R.id.resultTv);
-    }//end oncreate
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-//        if (requestCode == CAMERA_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(detectColor.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-//                Toast.makeText(detectColor.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        else if (requestCode == STORAGE_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(detectColor.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-//                Toast.makeText(detectColor.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -226,8 +180,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 intent.putExtra("data", photo);
                 startActivity(intent);
-//                Intent intent1 = new Intent(FindObj.this, detectColor.class);
-//                startActivity(intent1);
             } catch (Exception e) {
                 Log.e("Log", "Error from Camera Activity");
             }
@@ -235,11 +187,6 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 
         if (requestCode == 1 && resultCode == detectColor.RESULT_OK ) {
             try {
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivityForResult(Intent.createChooser(intent, "Select photo from"), 1);
-//                }
                 Uri uri = data.getData();
                 Intent intent = new Intent(detectColor.this,Fcgallery.class);
                 intent.putExtra("imageUri", uri.toString());
@@ -248,7 +195,7 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
                 Log.e("Log", "Error from Gallery Activity");
             }
         }
-    }//end onActivityResult
+    }
 
     @Override
     public void onPause() {
@@ -304,10 +251,10 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             //The place where the screen was touched
             Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
 
-            if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
+            if ((x < 0) || (y < 0) || (x > cols) || (y > rows))
+                return false;
 
             Rect touchedRect = new Rect();
-
             //Ensure it is a multiple of 4
             touchedRect.x = (x > 4) ? x - 4 : 0;
             touchedRect.y = (y > 4) ? y - 4 : 0;
@@ -321,7 +268,10 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 
             //Convert the new mat to HSV colour space
             Mat touchedRegionHsv = new Mat();
+
             Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
+
+            Log.d(TAG,"submat: " + touchedRegionRgba);
 
             // Calculate average color of touched region
             mBlobColorHsv = Core.sumElems(touchedRegionHsv);
@@ -340,43 +290,27 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
             // Resize the image to specture size
             //Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
+            //Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
+
             mIsColorSelected = true;
             //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
-
 
             // Release all mats
             touchedRegionRgba.release();
             touchedRegionHsv.release();
 
-//            Imgproc.circle(mRgba, new Point(touchedRect.x, touchedRect.y), 50, new Scalar(mBlobColorHsv.val[0], mBlobColorHsv.val[1], mBlobColorHsv.val[2]), 1);
+            //Imgproc.circle(mRgba, new Point(touchedRect.x, touchedRect.y), 50, new Scalar(mBlobColorHsv.val[0], mBlobColorHsv.val[1], mBlobColorHsv.val[2]), 1);
 
             String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
-//        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
-//
             String colorName = getColorName(hex.substring(1));
             Log.d(TAG, colorName);
-
             rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
             HexCode.setText(String.format("HEX: %s", hex.toUpperCase()));
-
             Name.setText(colorName);
-
             ColorView = findViewById(R.id.colorView);
             ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
 
-//        final ImageButton copyText = (ImageButton) findViewById(R.id.copy);
-//        TextView rgb = (TextView) findViewById(R.id.resultTv);
-//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        copyText.setOnClickListener(v1 -> {
-//            String txtcopy = rgb.getText().toString();
-//            String copy = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
-//        });
-
             mAddFab.shrink();
-
             mAddFab.setOnClickListener(view -> {
                 if (!isAllFabsVisible) {
                     mAddAlarmFab.show();
@@ -424,11 +358,15 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
     }//end ontouch
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
+        Log.d(TAG,"mRgba: " + mRgba);
         mRgba = inputFrame.rgba();
+        if(mIsColorSelected){
 
+
+        }
 //        if (mIsColorSelected) { //if selected new color then re process again
-            //mDetector.process(mRgba);
-            //List<MatOfPoint> contours = mDetector.getContours();
+//            mDetector.process(mRgba);
+//            List<MatOfPoint> contours = mDetector.getContours();
 //            ArrayList<MatOfPoint> contours = new ArrayList<>();
 //            MatOfPoint2f approxCurve = new MatOfPoint2f();
 //            for (int i = 0; i < contours.size(); i++) {
@@ -437,25 +375,29 @@ public class detectColor extends AppCompatActivity implements OnTouchListener, C
 //                Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
 //                MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 //                Rect rect = Imgproc.boundingRect(points);
-                //Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+//                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+//        }
+//        mDetector.process(mRgba);
+//        List<MatOfPoint> contours = mDetector.getContours();
+//        //ArrayList<MatOfPoint> contours = new ArrayList<>();
+//        MatOfPoint2f approxCurve = new MatOfPoint2f();
+//        for (int i = 0; i < contours.size(); i++) {
+//            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+//            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//            MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//            Rect rect = Imgproc.boundingRect(points);
+//            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
 //        }
         return mRgba;
     }
 
-    //final conversion
     private Scalar converScalarHsv2Rgba(Scalar hsvColor) {
         Mat pointMatRgba = new Mat();
         Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, hsvColor);
         Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
 
         return new Scalar(pointMatRgba.get(0, 0));
-    }
-
-    public Bitmap getBitmapFromView(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
     }
 
     private String nearestColor(String code, HashMap<String, String> sColorNameMap) {

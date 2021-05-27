@@ -29,12 +29,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import www.sanju.motiontoast.MotionToast;
 
 public class Fogallery extends AppCompatActivity {
+
+    private static final String TAG = "Fogallery";
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 200;
@@ -47,6 +53,8 @@ public class Fogallery extends AppCompatActivity {
     Bitmap bitmap;
     private ClipData clipData,clipData2,clipData3;
     private ClipboardManager clipboardManager;
+    long imgMatLong;
+    Mat imgMat;
 
     //@SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
     @SuppressLint("ClickableViewAccessibility")
@@ -115,6 +123,9 @@ public class Fogallery extends AppCompatActivity {
             MotionToast.Companion.darkColorToast(Fogallery.this,"Ready to find object", MotionToast.TOAST_SUCCESS, MotionToast.GRAVITY_CENTER, MotionToast.SHORT_DURATION,
                     ResourcesCompat.getFont(Fogallery.this, R.font.helvetica_regular));
             Intent intent = new Intent(Fogallery.this,detectObjFromGall.class);
+
+            //intent.putExtra( "img", imgMatLong);
+
             intent.putExtra("text",copyrgb);
             intent.putExtra("text2",copyhex);
             intent.putExtra("text3",copyname);
@@ -197,6 +208,11 @@ public class Fogallery extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                     bitmap = getBitmapFromView(ImageView);
                     int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
+
+//                    Mat img = new Mat(bitmap.getWidth(), bitmap.getHeight(), CvType.CV_8UC4); //Mat ใช้คำนวณชุดของสี
+//                    imgMat = Utils.bitmapToMat(bitmap, img);
+//                    imgMatLong = img.getNativeObjAddr();
+//                    Log.d(TAG, "imgMat: " + img);
 
                     String hexCode = Integer.toHexString(pixel);
                     String hex = hexCode.substring(2);

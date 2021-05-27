@@ -302,13 +302,13 @@ public class Fcgallery extends AppCompatActivity {
     View.OnTouchListener imgSourceOnTouchListener = new View.OnTouchListener(){
         @Override
         public boolean onTouch(View view, MotionEvent event) {
-            //if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
             try {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+
                     bitmap = getBitmapFromView(ImageView);
                     int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
-
                     String hexCode = Integer.toHexString(pixel);
+
                     String hex = hexCode.substring(2);
                     Log.d(TAG, hex);
 
@@ -1905,30 +1905,6 @@ public class Fcgallery extends AppCompatActivity {
             return false;
         }
     };
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-//    {
-//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-//
-////        if (requestCode == CAMERA_PERMISSION_CODE) {
-////            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-////                Toast.makeText(Fcgallery.this,"Camera Permission Granted",Toast.LENGTH_SHORT).show();
-////            }
-////            else {
-////                Toast.makeText(Fcgallery.this,"Camera Permission Denied",Toast.LENGTH_SHORT).show();
-////            }
-////        }
-////        else
-//        if (requestCode == STORAGE_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-////                Toast.makeText(Fcgallery.this,"Storage Permission Granted",Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-////                Toast.makeText(Fcgallery.this,"Storage Permission Denied",Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

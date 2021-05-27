@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,7 +74,11 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
     private TextView rgb;
     private TextView HexCode;
     private TextView Name;
-    int r, g, b;
+    int r, g, b, h, s, v;
+    Scalar lowerSc, upperSc, low, high;
+    Mat img;
+
+    int h1,s1,v1,h2,s2,v2;
 
     private int pixel,x,y,xOffset,yOffset,cols,rows;
 
@@ -152,12 +157,12 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 //        rows = getIntent().getIntExtra("copyRows",0);
 //        Log.d(TAG, "Cols/rows: " + cols + ", " + rows);
 
-        Bundle extras1 = getIntent().getExtras();
-        cols = extras1.getInt("copyCols");
-
-        Bundle extras2 = getIntent().getExtras();
-        rows = extras2.getInt("copyRows");
-        Log.d(TAG, "Cols/rows: " + cols + ", " + rows);
+//        Bundle extras1 = getIntent().getExtras();
+//        cols = extras1.getInt("copyCols");
+//
+//        Bundle extras2 = getIntent().getExtras();
+//        rows = extras2.getInt("copyRows");
+//        Log.d(TAG, "Cols/rows: " + cols + ", " + rows);
 //
 //        xOffset = getIntent().getIntExtra("copyOffsetX",0);
 //        yOffset = getIntent().getIntExtra("copyOffsetY",0);
@@ -194,6 +199,44 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
         ColorView = findViewById(R.id.colorView);
         ColorView.setBackgroundColor(Color.rgb(r, g, b));
+
+//        float[] hsv = new float[3];
+//        Color.RGBToHSV(r,g,b,hsv);
+//        h = (int) hsv[0];
+//        s = (int)(hsv[1]*100f);
+//        v = (int)(hsv[2]*100f);
+//        Log.d("HSV", "h: " + h);
+//        Log.d("HSV", "s: " + s);
+//        Log.d("HSV", "v: " + v);
+
+//        int hsv[] = rgbToHsv(r,g,b);
+//        h = hsv[0];
+//        s = hsv[1];
+//        v = hsv[2];
+//        Log.d("HSV","HSV: " + h + " " + s + " " + v);
+
+//        h1 = h-10;
+//        s1 = s-10;
+//        v1 = v-40;
+//        h2 = h+10;
+//        s2 = s+10;
+//        v2 = v+40;
+//        lowerSc = new Scalar(h1,s1,v1);
+//        upperSc = new Scalar(h2,s2,v2);
+
+//        lowerSc = new Scalar(h-10,s-10,v-40);
+//        upperSc = new Scalar(h+10,s+10,v+40);
+
+
+//        long addr = getIntent().getLongExtra("img", 0);
+////        Mat tempImg = new Mat(addr);
+//        img = new Mat(addr);
+//        //img = tempImg.clone();
+//        System.out.print(" " + img);
+//        Log.d(TAG, "" + img);
+
+//        low = new Scalar(45, 100, 100);
+//        high = new Scalar(75, 255, 255);
 
         final ImageButton camera = findViewById(R.id.camera);
         final ImageButton gallery = findViewById(R.id.gallery);
@@ -353,371 +396,216 @@ public class detectObjFromGall extends AppCompatActivity implements CvCameraView
 
     public void onCameraViewStarted(int width, int height) {
         //mRgba = new Mat(height, width, CvType.CV_8UC4);
-        mRgbaFiltered = new Mat(height, width, CvType.CV_8UC4);
+//        mRgbaFiltered = new Mat(height, width, CvType.CV_8UC4);
+//        mRgba = new Mat(height, width, CvType.CV_8UC4);
+//        mDetector = new ColorBlobDetector();
+//        mSpectrum = new Mat();
+//        mBlobColorRgba = new Scalar(255);
+//        mBlobColorHsv = new Scalar(255);
+//        SPECTRUM_SIZE = new Size(200, 64);
+//        //Scalar กำหนดเป็นพื้นที่สีอื่น
+//        Scalar CONTOUR_COLOR = new Scalar(255, 0, 0, 255);
 
         mRgba = new Mat(height, width, CvType.CV_8UC4);
+
         mDetector = new ColorBlobDetector();
-        mSpectrum = new Mat();
         mBlobColorRgba = new Scalar(255);
         mBlobColorHsv = new Scalar(255);
+
+        mSpectrum = new Mat();
         SPECTRUM_SIZE = new Size(200, 64);
         //Scalar กำหนดเป็นพื้นที่สีอื่น
         Scalar CONTOUR_COLOR = new Scalar(255, 0, 0, 255);
-
     }
 
     public void onCameraViewStopped() {
         mRgba.release();
     }
 
+//    @Override
+//    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+////        Scalar greenLow = new Scalar(45, 100, 100);
+////        Scalar greenHigh = new Scalar(75, 255, 255);
+//
+////        Scalar greenLow = new Scalar(81, 40, 10);
+////        Scalar greenHigh = new Scalar(101,127, 40);
+////        System.out.println(r + " " + g + " " + b);
+////
+////            Core.inRange(mRgbaFiltered, greenLow, greenHigh, mRgbaFiltered);
+////            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+////            Mat hierarchy = new Mat();
+////            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+////            for (int i = 0; i < contours.size(); i++) {
+////                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
+////                    MatOfPoint2f approxCurve = new MatOfPoint2f();
+////                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+////                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+////                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+////                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+////                    Rect rect = Imgproc.boundingRect(points);
+////                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
+////                }
+////            }
+////        return inputFrame.rgba();
+//        mRgba = inputFrame.rgba();
+//        //mat1 = inputFrame.rgba();
+//        Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_BGR2HSV);
+//        //Imgproc.cvtColor(inputFrame.rgba(), mat1, Imgproc.COLOR_BGR2HSV);
+//
+//        //Core.inRange(mRgbaFiltered, greenLow, greenHigh, mRgbaFiltered);
+//
+//        //Core.inRange(mRgbaFiltered, low, high, mRgbaFiltered);
+//
+//        Core.inRange(mRgbaFiltered, lowerSc, upperSc, mRgbaFiltered);
+//
+//        ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//        Mat hierarchy = new Mat();
+//        Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+//        for (int i = 0; i < contours.size(); i++) {
+//            MatOfPoint2f approxCurve = new MatOfPoint2f();
+//            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.1;
+//            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//            MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//            Rect rect = Imgproc.boundingRect(points);
+//            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 3);
+//        }
+//        return mRgba;
+//    }
+
     @Override
-    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
-    }
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+//        //mat1 = inputFrame.rgba();
+//        Imgproc.cvtColor(inputFrame.rgba(), mat1, Imgproc.COLOR_BGR2HSV);
+//        //Imgproc.cvtColor(inputFrame.rgba(), mat1, Imgproc.COLOR_BGR2HSV);
+//        Core.inRange(mat1, lowerSc, upperSc, mat2);
+////        Core.inRange(mat1, scalarLow, scalarHigh, mat2);
+////        Log.d("Scalar", "Lower: " + scalarLow);
+////        Log.d("Scalar", "Upper: " + scalarHigh);
+//        //Core.inRange(mat1, lowerSc, upperSc, mat2);
+////        List<MatOfPoint> contours = new ArrayList<>();
+////        Mat hierarchy = new Mat();
+////        Imgproc.findContours(mat2, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+////        for(int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
+////            MatOfPoint matOfPoint = contours.get(idx);
+////            Rect rect = Imgproc.boundingRect(matOfPoint);
+////            Imgproc.rectangle(mat2, rect.tl(), rect.br(), new Scalar(0, 0, 255));
+////        }
+//        return mat2;
+//    }
+
+//        mRgba = inputFrame.rgba();
+//        //mDetector.process(mRgba);
+//        //mat1 = inputFrame.rgba();
+//
+//        Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_BGR2HSV);
+//
+//        //Imgproc.cvtColor(inputFrame.rgba(), mat1, Imgproc.COLOR_BGR2HSV);
+//
+//        //Core.inRange(mRgbaFiltered, greenLow, greenHigh, mRgbaFiltered);
+//
+//        //Core.inRange(mRgbaFiltered, low, high, mRgbaFiltered);
+//
+//        Core.inRange(mRgbaFiltered, lowerSc, upperSc, mRgbaFiltered);
+//
+//        ArrayList<MatOfPoint> contours = new ArrayList<>();
+//        Mat hierarchy = new Mat();
+//        Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+//        for (int i = 0; i < contours.size(); i++) {
+//            MatOfPoint2f approxCurve = new MatOfPoint2f();
+//            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+//            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.1;
+//            Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+//            MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+//            Rect rect = Imgproc.boundingRect(points);
+//            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 3);
+//        }
+//        return mRgba;
+
+        mRgba = inputFrame.rgba();
+
+        mBlobColorHsv = converScalarRgba2HSV(new Scalar(r,g,b));
+
+        Mat mRgbaFiltered = new Mat();
+        Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_BGR2HSV);
 
 
-    // When a motion event happens (someone touches the device)
-//    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "DefaultLocale"})
-    //public boolean onTouch(View v, MotionEvent event) {
+//        mBlobColorHsv = new Scalar(h,s,v);
 
-//        mAddFab.shrink();
-//
-//        mAddFab.setOnClickListener(view -> {
-//            if (!isAllFabsVisible) {
-//                mAddAlarmFab.show();
-//                mAddPersonFab.show();
-//                addAlarmActionText.setVisibility(View.VISIBLE);
-//                addPersonActionText.setVisibility(View.VISIBLE);
-//                mAddFab.extend();
-//                isAllFabsVisible = true;
-//            } else {
-//                mAddAlarmFab.hide();
-//                mAddPersonFab.hide();
-//                addAlarmActionText.setVisibility(View.GONE);
-//                addPersonActionText.setVisibility(View.GONE);
-//                mAddFab.shrink();
-//                isAllFabsVisible = false;
-//            }
-//        });
-//
-//        TextView rgb = (TextView) findViewById(R.id.resultTv);
-//        TextView hexcp = (TextView) findViewById(R.id.hex);
-//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//
-//        mAddPersonFab.setOnClickListener(view -> {
-//            String txtcopy = rgb.getText().toString();
-//            String copy = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(detectObjFromGall.this, copy, Toast.LENGTH_SHORT).show();
-//        });
-//        mAddAlarmFab.setOnClickListener(view -> {
-//            String txtcopy = hexcp.getText().toString();
-//            String copy2 = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text2", copy2);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(detectObjFromGall.this, copy2, Toast.LENGTH_SHORT).show();
-//        });
+        //mBlobColorHsv = Core.sumElems(mRgbaFiltered);
 
-//        int cols = mRgba.cols(); //get resolution of display
-//        int rows = mRgba.rows(); //get resolution of display
-//
-//        int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
-//        int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
-//
-//        int x = (int) event.getX() - xOffset;
-//        int y = (int) event.getY() - yOffset;
-//
-//        //The place where the screen was touched
-//        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
-//
-//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
-//
-//        Rect touchedRect = new Rect();
-//
-//        //Ensure it is a multiple of 4
-//        touchedRect.x = (x > 4) ? x - 4 : 0;
-//        touchedRect.y = (y > 4) ? y - 4 : 0;
-//
-//        // If  x+4 < cols then ?"" else :""
-//        touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
-//        touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
-//
-//        //create a touched regionmat from the image created from the touches
-//        Mat touchedRegionRgba = mRgba.submat(touchedRect);
-//
-//        //Convert the new mat to HSV colour space
-//        Mat touchedRegionHsv = new Mat();
-//        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
-//
-//        // Calculate average color of touched region
-//        mBlobColorHsv = Core.sumElems(touchedRegionHsv);
-//        int pointCount = touchedRect.width * touchedRect.height;
+//        int pointCount = mRgbaFiltered.width * touchedRect.height;
 //        for (int i = 0; i < mBlobColorHsv.val.length; i++)
 //            mBlobColorHsv.val[i] /= pointCount;
-//
-//        //converts scalar to hsv to RGB
+
 //        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
 //
-//        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
-//                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
-//
-//        mDetector.setHsvColor(mBlobColorHsv);
-//
-//        // Resize the image to specture size
-//        Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
-//
-//        mIsColorSelected = true;
-//        //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
-//
-//
-//        // Release all mats
-//        touchedRegionRgba.release();
-//        touchedRegionHsv.release();
-//
-//        String hex = String.format("#%02x%02x%02x", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]);
-////        mResultTv.setText("RGB: " + (int)mBlobColorRgba.val[0] + ", " + (int)mBlobColorRgba.val[1] + ", " + (int)mBlobColorRgba.val[2] + "\nHex Code: " + hex.toUpperCase());
-////
-//        String colorName = getColorName(hex.substring(1));
-//        Log.d(TAG, colorName);
-//
-//        rgb.setText(String.format("RGB: %d, %d, %d", (int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
-//        HexCode.setText(String.format("Hex Code: %s", hex.toUpperCase()));
-//
-//        Name.setText("\nColor name: " + colorName);
-//
-//        ColorView = findViewById(R.id.colorView);
-//        ColorView.setBackgroundColor(Color.rgb((int) mBlobColorRgba.val[0], (int) mBlobColorRgba.val[1], (int) mBlobColorRgba.val[2]));
-//
-//        final Button copyText = (Button) findViewById(R.id.copy);
-//        TextView rgb = (TextView) findViewById(R.id.resultTv);
-//        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        copyText.setOnClickListener(v1 -> {
-//            String txtcopy = rgb.getText().toString();
-//            String copy = txtcopy.substring(5);
-//            clipData = ClipData.newPlainText("text", copy);
-//            clipboardManager.setPrimaryClip(clipData);
-//            Toast.makeText(getApplicationContext(), copy, Toast.LENGTH_SHORT).show();
-//        });
-//        return false; // don't need subsequent touch events
-//    }
+//        rgba = scalarRgba2HSV(r1,g1,b1);
 
-//    public boolean checkXY(int x, int y){
-//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)){
-//            return false;
-//        }
-//        return false;
-//    }
+        Log.d("hsv", "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
 
-    /*public Mat onCameraFrame(CvCameraViewFrame inputFrame) { //colors in camera frame
-        mRgba = inputFrame.rgba();
-        //Imgproc.cvtColor(mRgba, mRgbaFiltered, Imgproc.COLOR_RGB2HSV);
-
-//        cols = mRgba.cols(); //get resolution of display
-//        rows = mRgba.rows(); //get resolution of display
-//
-//        Log.d(TAG, "cols/rows: " + cols + ", " + rows);
-//
-//        xOffset = (mOpenCvCameraView.getWidth() - cols) / 2; //get resolution of display
-//        yOffset = (mOpenCvCameraView.getHeight() - rows) / 2; //get resolution of display
-//
-//        Log.d(TAG, "xyoffset: " + xOffset + ", " + yOffset);
-//
-//        //The place where the screen was touched
-//        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
-
-//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
-
-        checkXY(x,y);
-
-        Rect touchedRect = new Rect();
-
-        //Ensure it is a multiple of 4
-        touchedRect.x = (x > 4) ? x - 4 : 0;
-        touchedRect.y = (y > 4) ? y - 4 : 0;
-
-        Log.d(TAG, "touchedRect: " + touchedRect.x + ", " + touchedRect.y);
-
-        // If  x+4 < cols then ?"" else :""
-        touchedRect.width = (x + 4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
-        touchedRect.height = (y + 4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
-        Log.d(TAG, "touchedRectWH: " + touchedRect.width + ", " + touchedRect.height);
-
-        //create a touched regionmat from the image created from the touches
-        Mat touchedRegionRgba = mRgba.submat(touchedRect);
-        Log.d(TAG, "touchedRect: " + touchedRegionRgba.toString());
-
-        //Convert the new mat to HSV colour space
-        Mat touchedRegionHsv = new Mat();
-        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
-
-//        Log.d(TAG,touchedRegionRgba.toString());
-//        Log.d(TAG,touchedRegionHsv.toString());
-
-        // Calculate average color of touched region
-        mBlobColorHsv = Core.sumElems(touchedRegionHsv);
-
-        Log.d(TAG,touchedRegionHsv.toString());
-
-        int pointCount = touchedRect.width * touchedRect.height;
-        for (int i = 0; i < mBlobColorHsv.val.length; i++)
-            mBlobColorHsv.val[i] /= pointCount;
-
-        //converts scalar to hsv to RGB
-        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
-
-        Log.d(TAG, "" + mBlobColorHsv.val[0] + ", " + mBlobColorHsv.val[1] + ", " + mBlobColorHsv.val[2]);
-
-        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
+        Log.i("rgb", "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
                 ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
+//        mBlobColorHsv = new Scalar(h,s,v);
         mDetector.setHsvColor(mBlobColorHsv);
 
-        // Resize the image to specture size
-        Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
+        //Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
-        //mIsColorSelected = true;
-        //mOpenCvCameraView.setOnTouchListener(imgSourceOnTouchListener);
-
-
-        // Release all mats
-        touchedRegionRgba.release();
-        touchedRegionHsv.release();
 
         mDetector.process(mRgba);
+
         List<MatOfPoint> contours = mDetector.getContours();
-        Log.e(TAG, "Contours count: " + contours.size());
         MatOfPoint2f approxCurve = new MatOfPoint2f();
         //For each contour found
         for (int i = 0; i < contours.size(); i++) {
-
 //                Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
 //                Mat colorLabel = mRgba.submat(20, 68, 20, 278);
 //                colorLabel.setTo(mBlobColorRgba);
 //                Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
 //                mSpectrum.copyTo(spectrumLabel);
-
             //Convert contours(i) from MatOfPoint to MatOfPoint2f
             MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
             //Processing on mMOP2f1 which is in type MatOfPoint2f
-            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+            double approxDistance = Imgproc.arcLength(contour2f, true) * 0.05;
             Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-
             //Convert back to MatOfPoint
             MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-
             // Get bounding rect of contour
             Rect rect = Imgproc.boundingRect(points);
-
             // draw enclosing rectangle (all same color, but you could use variable i to make them unique)
 //                Core.rectangle(contoursFrame, new Point(rect.x,rect.y), new Point(rect.x+rect.width,rect.y+rect.height), (255, 0, 0, 255), 3);
-            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 3);
         }
-
-//        Scalar sc = new Scalar(r,g,b);
-
-        //Red
-//        Scalar redLow = new Scalar(136, 87, 111);
-//        Scalar redHigh = new Scalar(180, 255, 255);
-//
-//        //Green
-//        Scalar Greenlower = new Scalar(45, 100, 100);
-//        Scalar Greenupper = new Scalar(75, 255, 255);
-//
-//        //Purple
-//        Scalar Purplelower = new Scalar(135, 0, 0);
-//        Scalar Purpleupper = new Scalar(145, 0, 255);
-//
-//        //White
-//        Scalar lower = new Scalar(0, 0, 0);
-//        Scalar upper = new Scalar(0, 0, 255);
-//
-//        //Blue
-//        Scalar blueLow = new Scalar(94, 80, 2);
-//        Scalar blueHigh = new Scalar(120, 255, 255);
-//
-//        //Yellow
-//        Scalar yellowL = new Scalar(25, 100, 20);
-//        Scalar yellowH = new Scalar(32, 255, 255);
-//
-//        //Black
-//        Scalar blackLow = new Scalar(0,0,0);
-//        Scalar blackHigh = new Scalar(180,150,50);
-//
-//        //Orange
-//        Scalar OrangeLow = new Scalar(10,100,20);
-//        Scalar OrangeHigh = new Scalar(25,255,255);
-
-//        float[] hsv = new float[3];
-//        Color.RGBToHSV(r, g, b, hsv);
-//
-//        int h = (int) hsv[0];
-//        float sc = hsv[1]*100f;
-//        int s = (int) sc;
-//        float vc = hsv[2]*100f;
-//        int v = (int) vc;
-//        Log.d(TAG,"h: " + h);
-//        Log.d(TAG,"s: " + s);
-//        Log.d(TAG,"v: " + v);
-
-//        greenLow = new Scalar(25, 52, 72);
-//        greenHigh = new Scalar(102, 255, 255);
-//        System.out.println(r + " " + g + " " + b);
-
-//        if(r > 0 && r < 255 && g > 0 && g < 255 && b > 0 && b < 255) {
-//            Core.inRange(mRgbaFiltered, blackLow, blackHigh, mRgbaFiltered);
-//            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-//            Mat hierarchy = new Mat();
-//            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-//            for (int i = 0; i < contours.size(); i++) {
-//
-//                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
-//
-//                    MatOfPoint2f approxCurve = new MatOfPoint2f();
-//                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
-//
-//                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
-//                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-//                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-//                    Rect rect = Imgproc.boundingRect(points);
-//
-//                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
-//                }
-//            }
-//        }
-
-//        if(r > 10 && r < 25 && g > 100 && g < 255 && b > 20 && b < 255) {
-//            Core.inRange(mRgbaFiltered, OrangeLow, OrangeHigh, mRgbaFiltered);
-//            ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-//            Mat hierarchy = new Mat();
-//            Imgproc.findContours(mRgbaFiltered, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
-//            for (int i = 0; i < contours.size(); i++) {
-//
-//                if (contours.get(i).total() < 150 && contours.get(i).total() > 50) {
-//
-//                    MatOfPoint2f approxCurve = new MatOfPoint2f();
-//                    MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
-//
-//                    double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
-//                    Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
-//                    MatOfPoint points = new MatOfPoint(approxCurve.toArray());
-//                    Rect rect = Imgproc.boundingRect(points);
-//
-//                    Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 5);
-//                }
-//            }
-//        }
-
-
         return mRgba;
-    }*/
+    }
 
     //final conversion
+//    private Scalar converScalarRgba2HSV(Scalar rgba) {
+//        Mat pointMatRgba = new Mat();
+//        Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, rgba);
+//        Imgproc.cvtColor(pointMatRgba, pointMatHsv, Imgproc.COLOR_RGB2HSV_FULL, 4);
+//        return new Scalar(pointMatRgba.get(0, 0));
+//    }
+
     private Scalar converScalarRgba2HSV(Scalar rgba) {
-        Mat pointMatRgba = new Mat();
-        Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, rgba);
-        Imgproc.cvtColor(pointMatRgba, pointMatHsv, Imgproc.COLOR_RGB2HSV_FULL, 4);
-        return new Scalar(pointMatRgba.get(0, 0));
+        Mat  pointMatHsv= new Mat();
+        Mat pointMatRgba = new Mat(1, 1, CvType.CV_8UC3, rgba);
+        Imgproc.cvtColor(pointMatRgba,pointMatHsv, Imgproc.COLOR_RGB2HSV_FULL, 4);
+
+        return new Scalar(pointMatHsv.get(0, 0));
+    }
+
+    private int[] rgbToHsv(int r,int g,int b){
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r,g,b,hsv);
+        int h = (int) hsv[0];
+        int s = (int)(hsv[1]*100f);
+        int v = (int)(hsv[2]*100f);
+        Log.d("HSV", "h: " + h);
+        Log.d("HSV", "s: " + s);
+        Log.d("HSV", "v: " + v);
+        return new int[]{h, s, v};
     }
 
     //final conversion

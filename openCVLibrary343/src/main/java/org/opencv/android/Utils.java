@@ -97,9 +97,11 @@ public class Utils {
      * Short form of the bitmapToMat(bmp, mat, unPremultiplyAlpha=false).
      * @param bmp is a valid input Bitmap object of the type 'ARGB_8888' or 'RGB_565'.
      * @param mat is a valid output Mat object, it will be reallocated if needed, so Mat may be empty.
+     * @return
      */
-    public static void bitmapToMat(Bitmap bmp, Mat mat) {
+    public static Mat bitmapToMat(Bitmap bmp, Mat mat) {
         bitmapToMat(bmp, mat, false);
+        return mat;
     }
 
 

@@ -88,6 +88,7 @@ ColorBlobDetector {
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 
         //ค้นหาขอบของวัตถุ
+
         Imgproc.findContours(mDilatedMask, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
         // Find max contour area กำหนดขอบเขตสีที่เราจิ้มให้ได้มากที่สุด
