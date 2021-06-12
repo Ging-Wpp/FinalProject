@@ -18,10 +18,12 @@ Step 2: After clicking on the Project from Version Control a pop-up screen will 
   ![image](https://user-images.githubusercontent.com/84076128/121774384-77d20c80-cbac-11eb-9918-45cee75cdc8d.png)
 
 Step 3: Then at last paste the link in the URL and choose your Directory. Click on the Clone button and you are done.
+  
   ![image](https://user-images.githubusercontent.com/84076128/121774431-9f28d980-cbac-11eb-8c60-e809b8c358e7.png)
 
 # Build Application <h2> 
-  Get the APK link here https://drive.google.com/file/d/1G5PJrsbAHZilk5hsDjJfTUw5zRFz3lRc/view?usp=sharing
+  Get the APK link here: https://drive.google.com/file/d/1G5PJrsbAHZilk5hsDjJfTUw5zRFz3lRc/view?usp=sharing
+  
   ![10_pkl-r2 แอปพลิเคชันช่วยเหลือคนตาบอดสี](https://user-images.githubusercontent.com/84076128/121774998-32630e80-cbaf-11eb-8be0-19cd246d11bc.png)
   
 # Directory Structure <h2> 
