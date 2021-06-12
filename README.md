@@ -20,6 +20,7 @@ Step 3: Then at last paste the link in the URL and choose your Directory. Click 
   ![image](https://user-images.githubusercontent.com/84076128/121774431-9f28d980-cbac-11eb-8c60-e809b8c358e7.png)
 
 # Directory Structure <h2> 
+```bash
   FinalProject-master
     ├───.idea
     ├───app
@@ -167,3 +168,4 @@ Step 3: Then at last paste the link in the URL and choose your Directory. Click 
                     ├───mipmap-xxhdpi
                     ├───mipmap-xxxhdpi
                     └───values
+```
