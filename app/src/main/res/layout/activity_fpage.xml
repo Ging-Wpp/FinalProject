@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/heavitas"
             android:gravity="center"
-            android:text="COLOR BLIND ASSISTANCE"
+            android:text="COLOR BLIND ASSISTANT"
             android:textColor="@color/white"
             android:textSize="45dp" />
 
