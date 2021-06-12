@@ -1,7 +1,6 @@
-# FinalProject
-ColorBlindAssistant Application 
+# ColorBlindAssistant Application 
 
-# This is an <h1> Step by Step Implementation
+# Step by Step Implementation <h1> 
 
 Find the appropriate android project according to the requirement in GitHub. You may also go through this link to find a project on FinalProject. So for demonstration purposes let’s clone this project in this article. 
 
