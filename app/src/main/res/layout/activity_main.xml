@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="COLOR BLIND ASSISTANCE"
+            android:text="COLOR BLIND ASSISTANT"
             android:fontFamily="@font/heavitas"
             android:layout_marginTop="230dp"
             android:textSize="45dp"

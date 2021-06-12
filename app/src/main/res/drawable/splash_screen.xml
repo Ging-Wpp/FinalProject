@@ -4,6 +4,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/fpage" />
+            android:src="@drawable/bg2" />
     </item>
 </layer-list>
