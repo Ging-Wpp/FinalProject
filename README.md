@@ -1,32 +1,32 @@
 # ColorBlindAssistant Application 
 
-# Step by Step Implementation <h2> 
+## Step by Step Implementation
 
 Find the appropriate android project according to the requirement in GitHub. You may also go through this link to find a project on https://github.com/Ging-Wpp/FinalProject - automatic!
 [GitHub](http://github.com) So for demonstration purposes let’s clone this project in this article. 
 
-After redirect to the above web page click on the green-colored Code button then copy the hyperlink as shown in the below image. You may copy the link manually or by just click on the Copy icon. 
+After redirect to the above web page click on the green-colored **Code** button then copy the **hyperlink** as shown in the below image. You may copy the link manually or by just click on the Copy icon. 
 
 ![image](https://user-images.githubusercontent.com/84076128/121774023-0f822b80-cbaa-11eb-97c1-50fc83e4d24b.png)
 
-Step 1: Open your Android Studio then go to the File > New > Project from Version Control as shown in the below image. 
+**Step 1:** Open your **Android Studio** then go to the **File > New > Project from Version Control** as shown in the below image. 
 
   ![image](https://user-images.githubusercontent.com/84076128/121774159-22e1c680-cbab-11eb-894b-ad63f995e5aa.png)
 
-Step 2: After clicking on the Project from Version Control a pop-up screen will arise like below. In the Version control choose Git from the drop-down menu. 
+**Step 2:** After clicking on the **Project from Version Control** a pop-up screen will arise like below. In the **Version control** choose **Git** from the drop-down menu. 
 
   ![image](https://user-images.githubusercontent.com/84076128/121774384-77d20c80-cbac-11eb-9918-45cee75cdc8d.png)
 
-Step 3: Then at last paste the link in the URL and choose your Directory. Click on the Clone button and you are done.
+**Step 3:** Then at last **paste the link in the URL** and choose your **Directory.** Click on the **Clone** button and you are done.
   
   ![image](https://user-images.githubusercontent.com/84076128/121774431-9f28d980-cbac-11eb-8c60-e809b8c358e7.png)
 
-# Build Application <h2> 
+## Build an Application
   Get the APK link here: https://drive.google.com/file/d/1G5PJrsbAHZilk5hsDjJfTUw5zRFz3lRc/view?usp=sharing
   
   ![10_pkl-r2 แอปพลิเคชันช่วยเหลือคนตาบอดสี](https://user-images.githubusercontent.com/84076128/121774998-32630e80-cbaf-11eb-8be0-19cd246d11bc.png)
   
-# Directory Structure <h2> 
+## Directory Structure
 ```bash
   FinalProject-master
     ├───.idea
