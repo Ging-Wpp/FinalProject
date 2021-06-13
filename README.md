@@ -1,6 +1,6 @@
-# ColorBlindAssistant Application 
+# ColorBlindAssistant Application/README
 
-## Step by Step Implementation
+## ➤ Step by Step Implementation
 
 Find the appropriate android project according to the requirement in GitHub. You may also go through this link to find a project on https://github.com/Ging-Wpp/FinalProject - automatic!
 [GitHub](http://github.com) So for demonstration purposes let’s clone this project in this article. 
@@ -21,12 +21,16 @@ After redirect to the above web page click on the green-colored **Code** button 
   
   ![image](https://user-images.githubusercontent.com/84076128/121774431-9f28d980-cbac-11eb-8c60-e809b8c358e7.png)
 
-## Build an Application
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+## ➤ Build an Application
   Get the APK link here: https://drive.google.com/file/d/1G5PJrsbAHZilk5hsDjJfTUw5zRFz3lRc/view?usp=sharing
   
   ![10_pkl-r2 แอปพลิเคชันช่วยเหลือคนตาบอดสี](https://user-images.githubusercontent.com/84076128/121774998-32630e80-cbaf-11eb-8be0-19cd246d11bc.png)
   
-## Directory Structure
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+  
+## ➤ Directory Structure
 ```bash
   FinalProject-master
     ├───.idea
